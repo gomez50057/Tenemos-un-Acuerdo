@@ -20,27 +20,41 @@ const DualSlider = ({ topItems, bottomItems }) => {
     const bottomWrapper = bottomWrapperRef.current;
     if (!containerEl || !topWrapper || !bottomWrapper) return;
 
-    // Calcula el desplazamiento horizontal de cada fila.
+    // Calcula el desplazamiento horizontal de cada fila para el movimiento final.
     const topScrollLength = topWrapper.scrollWidth - containerEl.offsetWidth;
     const bottomScrollLength = bottomWrapper.scrollWidth - containerEl.offsetWidth;
-    // Usamos el máximo ancho para determinar la duración del scroll.
+
+    // El desplazamiento total a animar es el ancho completo del wrapper.
     const maxScroll = Math.max(topWrapper.scrollWidth, bottomWrapper.scrollWidth);
 
-    // Línea de tiempo común para ambas animaciones.
+    // Definimos los estados iniciales:
+    // Fila superior: inicia fuera del viewport a la derecha.
+    gsap.set(topWrapper, { x: containerEl.offsetWidth });
+    // Fila inferior: inicia fuera del viewport a la izquierda.
+    gsap.set(bottomWrapper, { x: -containerEl.offsetWidth });
+
+    // Creamos una línea de tiempo común para ambas animaciones.
     const timeline = gsap.timeline({
       scrollTrigger: {
         trigger: containerEl,
-        start: 'top 100px', // Activa cuando el contenedor está a 100px del top
+        start: 'top top', // Puedes ajustar este valor según necesites.
         pin: true,
         scrub: 1,
         end: () => `+=${maxScroll}`,
       },
     });
 
-    // Slider superior se desplaza hacia la izquierda.
-    timeline.to(topWrapper, { x: -topScrollLength, ease: 'none' }, 0);
-    // Slider inferior se desplaza hacia la derecha.
-    timeline.to(bottomWrapper, { x: bottomScrollLength, ease: 'none' }, 0);
+    // Animación de la fila superior: de x = containerEl.offsetWidth a -topScrollLength.
+    timeline.to(topWrapper, {
+      x: -topScrollLength,
+      ease: 'none',
+    }, 0);
+
+    // Animación de la fila inferior: de x = -containerEl.offsetWidth a +bottomScrollLength.
+    timeline.to(bottomWrapper, {
+      x: bottomScrollLength,
+      ease: 'none',
+    }, 0);
 
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
