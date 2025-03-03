@@ -1,4 +1,6 @@
 .sobre {
-  padding: 20px;
+  width: 100vw;
+  height: auto;
+  padding: 80px 20px;
   background-color: #fff;
 }

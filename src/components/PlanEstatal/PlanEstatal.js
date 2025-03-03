@@ -2,8 +2,6 @@ import styles from "../../styles/Ejes.module.css";
 import Ejes from "./ejes/Ejes";
 import Transversales from "./transversales/Transversales";
 
-
-
 export default function PlanEstatal() {
   return (
     <section className={styles.ejes}>
