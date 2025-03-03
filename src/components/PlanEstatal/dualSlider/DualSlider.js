@@ -20,39 +20,51 @@ const DualSlider = ({ topItems, bottomItems }) => {
     const bottomWrapper = bottomWrapperRef.current;
     if (!containerEl || !topWrapper || !bottomWrapper) return;
 
-    // Calcula el desplazamiento horizontal de cada fila para el movimiento final.
-    const topScrollLength = topWrapper.scrollWidth - containerEl.offsetWidth;
-    const bottomScrollLength = bottomWrapper.scrollWidth - containerEl.offsetWidth;
+    // Ancho del contenedor visible.
+    const containerWidth = containerEl.offsetWidth;
+    // Ancho total de cada wrapper.
+    const topWrapperWidth = topWrapper.scrollWidth;
+    const bottomWrapperWidth = bottomWrapper.scrollWidth;
 
-    // El desplazamiento total a animar es el ancho completo del wrapper.
-    const maxScroll = Math.max(topWrapper.scrollWidth, bottomWrapper.scrollWidth);
+    // Slider superior:
+    // - Inicial: completamente fuera a la derecha (x = containerWidth)
+    // - Final: contenido completamente visible (x = containerWidth - topWrapperWidth)
+    const topInitial = containerWidth;
+    const topFinal = containerWidth - topWrapperWidth;
 
-    // Definimos los estados iniciales:
-    // Fila superior: inicia fuera del viewport a la derecha.
-    gsap.set(topWrapper, { x: containerEl.offsetWidth });
-    // Fila inferior: inicia fuera del viewport a la izquierda.
-    gsap.set(bottomWrapper, { x: -containerEl.offsetWidth });
+    // Slider inferior:
+    // - Inicial: completamente fuera a la izquierda (x = -bottomWrapperWidth)
+    // - Final: contenido completamente visible (x = 0)
+    const bottomInitial = -bottomWrapperWidth;
+    const bottomFinal = 0;
 
-    // Creamos una línea de tiempo común para ambas animaciones.
+    // Definimos los estados iniciales.
+    gsap.set(topWrapper, { x: topInitial });
+    gsap.set(bottomWrapper, { x: bottomInitial });
+
+    // Se usa el mayor recorrido entre ambos para determinar la duración del scroll.
+    const maxScroll = Math.max(topWrapperWidth, bottomWrapperWidth);
+
+    // Línea de tiempo común para ambas animaciones.
     const timeline = gsap.timeline({
       scrollTrigger: {
         trigger: containerEl,
-        start: 'top top', // Puedes ajustar este valor según necesites.
+        start: 'top top',
         pin: true,
         scrub: 1,
         end: () => `+=${maxScroll}`,
       },
     });
 
-    // Animación de la fila superior: de x = containerEl.offsetWidth a -topScrollLength.
+    // Animación del slider superior: de x = containerWidth a containerWidth - topWrapperWidth.
     timeline.to(topWrapper, {
-      x: -topScrollLength,
+      x: topFinal,
       ease: 'none',
     }, 0);
 
-    // Animación de la fila inferior: de x = -containerEl.offsetWidth a +bottomScrollLength.
+    // Animación del slider inferior: de x = -bottomWrapperWidth a 0.
     timeline.to(bottomWrapper, {
-      x: bottomScrollLength,
+      x: bottomFinal,
       ease: 'none',
     }, 0);
 
