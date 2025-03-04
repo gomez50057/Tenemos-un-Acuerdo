@@ -10,7 +10,6 @@ const Navbar = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [visible, setVisible] = useState(true);
 
-
   // Eventos para manejar hover en escritorio
   const handleEjesMouseEnter = () => setShowEjes(true);
   const handleEjesMouseLeave = () => setShowEjes(false);
