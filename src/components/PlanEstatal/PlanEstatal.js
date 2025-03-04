@@ -7,7 +7,7 @@ export default function PlanEstatal() {
   return (
     <section className={styles.ejes}>
       <div className={styles.planEstatalTxt}>
-        <h2>Ejes del Plan Estatal de Desarrollo</h2>
+        <h2><span className='spanVino'>Plan Estatal de Desarrollo</span> </h2>
       </div>
       <DualSlider topItems={ejesPlanEstatal} bottomItems={TransversalesPlanEstatal} />
     </section>

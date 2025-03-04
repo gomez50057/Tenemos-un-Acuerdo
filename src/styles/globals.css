@@ -61,6 +61,12 @@ h2 .spanDoarado {
   font-style: italic;
 }
 
+h1 .spanVino,
+h2 .spanvino {
+  color: var(--vinoOsc);
+  font-style: italic;
+}
+
 p {
   color: var(--grisOsc);
   font-weight: 500;
