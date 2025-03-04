@@ -9,6 +9,8 @@
 
 .aboutTren {
   position: relative;
+  left: -20px;
+  top: -90px;
   overflow: hidden;
   width: 100vw;
   height: 100vh;  /* Altura fija de 300px */
@@ -20,3 +22,8 @@
   height: 100%;
   fill: none;
 }
+
+
+
+
+/* style="position: absolute; width: 200px; height: auto; translate: none; rotate: none; scale: none; transform-origin: 50% 50%; transform: translate3d(-1615.06px, 1067.95px, 0px) rotate(2.351deg);" */
