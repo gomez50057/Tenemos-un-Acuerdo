@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { MotionPathPlugin } from "gsap/dist/MotionPathPlugin";
@@ -9,73 +9,82 @@ import styles from "../styles/Linesvg.module.css";
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
 export default function AnimatePath() {
-  const [width, setWidth] = useState(window.innerWidth * 1); // 100% del ancho
+  // Inicializamos con 0 para evitar el acceso a window en el servidor
+  const [width, setWidth] = useState(0);
 
+  // Referencias para evitar búsquedas en el DOM
+  const containerRef = useRef(null);
+  const lineSvgRef = useRef(null);
+  const motionPathRef = useRef(null);
+  const tractorImgRef = useRef(null);
+
+  // useEffect que se ejecuta solo en el cliente
   useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth * 1);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    // Verificamos que window esté disponible
+    if (typeof window !== "undefined") {
+      setWidth(window.innerWidth);
+      const handleResize = () => setWidth(window.innerWidth);
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
   }, []);
 
   useEffect(() => {
-    const containerEl = document.querySelector("#aboutTren");
-    if (!containerEl) return;
+    // Nos aseguramos que los elementos existen antes de continuar
+    if (!containerRef.current || !motionPathRef.current || !tractorImgRef.current) return;
 
-    // Aseguramos que el SVG se muestre
-    gsap.set("#linesvg", { opacity: 1 });
+    // Usamos gsap.context para un scope controlado y limpieza automática
+    const ctx = gsap.context(() => {
+      // Mostramos el SVG
+      gsap.set(lineSvgRef.current, { opacity: 1 });
 
-    const motionPathEl = document.querySelector("#motionPath");
-    if (!motionPathEl) return;
-
-    const tractorImg = document.querySelector("#tractorImg");
-    if (!tractorImg) return;
-
-    const yOffset = 0;
-
-    // Posiciona la imagen al inicio del path, con rotación fija a 180°
-    gsap.set(tractorImg, {
-      rotation: 0,
-      motionPath: {
-        path: "#motionPath",
-        align: "#motionPath",
-        alignOrigin: [0, 1],
-        autoRotate: false,
-        start: 0,
-      },
-      y: -yOffset,
-    });
-
-    gsap.to(tractorImg, {
-      scrollTrigger: {
-        trigger: containerEl,
-        start: "top center",
-        end: () => "+=" + containerEl.offsetHeight,
-        scrub: 8,
-        markers: true,
-        onUpdate: (self) => {
-          if (self.direction < 0) {
-            tractorImg.src = "/img/trenRetorno.svg";
-          } else {
-            tractorImg.src = "/img/tren.svg";
-          }
+      const yOffset = 0;
+      // Configuración inicial de la imagen
+      gsap.set(tractorImgRef.current, {
+        rotation: 0,
+        motionPath: {
+          path: motionPathRef.current,
+          align: motionPathRef.current,
+          alignOrigin: [0, 1],
+          autoRotate: false,
+          start: 0,
         },
-      },
-      ease: "none",
-      motionPath: {
-        path: "#motionPath",
-        align: "#motionPath",
-        alignOrigin: [0, 1],
-        autoRotate: false,
-        start: 0,
-      },
-      rotation: 0,
-    });
-  }, []);
+        y: -yOffset,
+      });
+
+      // Animación con ScrollTrigger
+      gsap.to(tractorImgRef.current, {
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top center",
+          end: () => "+=" + containerRef.current.offsetHeight,
+          scrub: 8,
+          markers: false,
+          onUpdate: (self) => {
+            tractorImgRef.current.src =
+              self.direction < 0 ? "/img/trenRetorno.svg" : "/img/tren.svg";
+          },
+        },
+        ease: "none",
+        motionPath: {
+          path: motionPathRef.current,
+          align: motionPathRef.current,
+          alignOrigin: [0, 1],
+          autoRotate: false,
+          start: 0,
+        },
+        rotation: 0,
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, [width]);
 
   return (
-    <div id="aboutTren" className={styles.aboutTren}>
+    <div id="aboutTren" ref={containerRef} className={styles.aboutTren}>
       <svg
         id="linesvg"
+        ref={lineSvgRef}
         className={styles.linesvg}
         width="100%"
         height="100%"
@@ -85,14 +94,16 @@ export default function AnimatePath() {
       >
         <path
           id="motionPath"
+          ref={motionPathRef}
           className={styles.st0}
           d={`M-${width * 0.1},8 L${width},8`}
         />
       </svg>
       <img
         id="tractorImg"
+        ref={tractorImgRef}
         src="/img/tren.svg"
-        alt="Tren"
+        alt="Tren animado"
         style={{
           position: "absolute",
           bottom: 0,

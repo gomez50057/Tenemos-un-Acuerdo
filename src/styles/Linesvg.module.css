@@ -12,5 +12,4 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-miterlimit: 10;
-  /* Asegúrate de NO tener "stroke: none" */
 }
