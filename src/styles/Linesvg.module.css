@@ -3,12 +3,11 @@
   overflow: hidden;
   width: 150%;
   height: 100%;
-  border: 5px solid rgb(0, 255, 55);
+  /* border: 5px solid rgb(0, 255, 55); */
 }
 
 .st0 {
-  
-  fill: #fff;
+  fill: none;
   stroke-width: 10;
   stroke-linecap: round;
   stroke-linejoin: round;
