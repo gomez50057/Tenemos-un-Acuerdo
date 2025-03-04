@@ -1,6 +1,6 @@
-import styles from "../styles/Sobre.module.css";
+import styles from "../styles/About.module.css";
 
-export default function Sobre() {
+export default function About() {
   return (
     <section className={styles.aboutContainer}>
       <div className={styles.tren}>

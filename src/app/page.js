@@ -1,5 +1,5 @@
 import Portada from "../components/Portada";
-import Sobre from "../components/Sobre";
+import Sobre from "../components/About";
 import PlanEstatal from "../components/PlanEstatal/PlanEstatal";
 import Slider from "../components/Slider";
 import Footer from "../components/shared/Footer";
