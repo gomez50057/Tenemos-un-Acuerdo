@@ -1,0 +1,22 @@
+.st0 {
+  fill: none;
+  stroke: rgb(42, 222, 144); /* Puedes ajustar el color */
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-miterlimit: 10;
+}
+
+.aboutTren {
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;  /* Altura fija de 300px */
+  border: 5px solid red;
+}
+
+.aboutTren svg{
+  width: 100%;
+  height: 100%;
+  fill: none;
+}

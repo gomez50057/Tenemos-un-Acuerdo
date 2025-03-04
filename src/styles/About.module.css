@@ -1,5 +1,7 @@
 .aboutContainer {
   display: flex;
+  width: 100vw;
+  height: 100vh;
   padding: 80px 20px;
   background-color: #fff;
 }
@@ -21,7 +23,7 @@
   width: 40vw;
   height: auto;
   padding-right: 2.5vw;
-  background-color: tomato;
+  /* background-color: tomato; */
 }
 
 .aboutTxt {
