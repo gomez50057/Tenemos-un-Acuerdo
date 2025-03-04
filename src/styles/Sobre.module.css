@@ -1,6 +1,31 @@
-.sobre {
-  width: 100vw;
-  height: auto;
+.aboutContainer {
+  display: flex;
   padding: 80px 20px;
   background-color: #fff;
+}
+
+.aboutContainer p{
+  text-align: justify;
+}
+
+.aboutContainer h3,
+.aboutContainer h2 {
+  margin: 5px 0;
+}
+
+.aboutContainer h3 {
+  color: var(--grisClr);
+}
+
+.tren{
+  width: 40vw;
+  height: auto;
+  padding-right: 2.5vw;
+  background-color: tomato;
+}
+
+.aboutTxt {
+  width: 60vw;
+  height: auto;
+  padding-right: 2.5vw;
 }
