@@ -31,7 +31,7 @@ export default function AnimatePath() {
 
     // Posiciona la imagen al inicio del path, con rotación fija a 180°
     gsap.set("#tractorImg", {
-      rotation: 180,
+      rotation: 0,
       motionPath: {
         path: "#motionPath",
         align: "#motionPath",
@@ -47,7 +47,7 @@ export default function AnimatePath() {
         trigger: containerEl,
         start: "top center",
         end: () => "+=" + containerEl.offsetHeight,
-        scrub: 1,
+        scrub: 12,
         markers: true,
       },
       ease: "none",
@@ -58,7 +58,7 @@ export default function AnimatePath() {
         autoRotate: false,
         start: 0,
       },
-      rotation: 180,
+      rotation: 0,
     });
   }, []);
 
@@ -77,7 +77,7 @@ export default function AnimatePath() {
         <path
           id="motionPath"
           className={styles.st0}
-          d={`M-${width * 0.1},5 L${width},5`}
+          d={`M-${width * 0.1},10 L${width},10`}
         />
       </svg>
       <img
