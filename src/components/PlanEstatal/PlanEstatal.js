@@ -6,9 +6,9 @@ import styles from "../../styles/Ejes.module.css";
 export default function PlanEstatal() {
   return (
     <section className={styles.ejes}>
-      <h2>Ejes del Plan Estatal de Desarrollo</h2>
-      <h3>Visualización Simultánea en Filas</h3>
-      <p>Aquí se muestran ambos sliders en filas separadas.</p>
+      <div className={styles.planEstatalTxt}>
+        <h2>Ejes del Plan Estatal de Desarrollo</h2>
+      </div>
       <DualSlider topItems={ejesPlanEstatal} bottomItems={TransversalesPlanEstatal} />
     </section>
   );

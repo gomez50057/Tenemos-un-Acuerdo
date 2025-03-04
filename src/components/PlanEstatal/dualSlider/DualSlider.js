@@ -36,7 +36,7 @@ const DualSlider = ({ topItems, bottomItems }) => {
     const topFinal = containerWidth - topWrapperWidth - offset;
 
     // Slider inferior:
-    // - Inicial: casi fuera a la izquierda, pero 80px adentro.
+    // - Inicial: completamente fuera a la izquierda, pero 80px adentro.
     // - Final: se mueve hasta quedar completamente visible con 80px desde el borde izquierdo.
     const bottomInitial = -bottomWrapperWidth + offset;
     const bottomFinal = offset;
@@ -52,7 +52,7 @@ const DualSlider = ({ topItems, bottomItems }) => {
     const timeline = gsap.timeline({
       scrollTrigger: {
         trigger: containerEl,
-        start: 'top top',
+        start: 'top 120px',
         pin: true,
         scrub: 1,
         end: () => `+=${maxScroll}`,
@@ -81,6 +81,10 @@ const DualSlider = ({ topItems, bottomItems }) => {
       {/* Fila superior */}
       <div className={styles.row}>
         <div className={styles.wrapper} ref={topWrapperRef}>
+          <div className={styles.titule}>
+            <h3>Los 4 Ejes</h3>
+            <p>Estratégocos para el Desarollo</p>
+          </div>
           {topItems.map((item, index) => (
             <div key={item.id || index} className={styles.slide}>
               <div className={styles.text}>
@@ -103,7 +107,7 @@ const DualSlider = ({ topItems, bottomItems }) => {
       {/* Fila inferior */}
       <div className={styles.row}>
         <div className={styles.wrapper} ref={bottomWrapperRef}>
-          {bottomItems.map((item, index) => (
+          {[...bottomItems].reverse().map((item, index) => (
             <div key={item.id || index} className={styles.slide}>
               <div className={styles.text}>
                 <h2>{item.name}</h2>
@@ -120,6 +124,10 @@ const DualSlider = ({ topItems, bottomItems }) => {
               </div>
             </div>
           ))}
+          <div className={styles.titule}>
+            <h3>Los 3 Temas Transversales</h3>
+            <p>Impulso para un Futuro Sostenible</p>
+          </div>
         </div>
       </div>
     </div>
