@@ -2,7 +2,6 @@
 import React from 'react';
 import Link from 'next/link';
 import './Navbar.css';
-
 const img = "/img/";
 
 const Navbar = () => {
@@ -12,10 +11,8 @@ const Navbar = () => {
         <div className="Navbar_img">
           <img src={`${img}Coordinación.png`} alt="Logo de Planeación" />
           <img src={`${img}headertxt.png`} alt="Logo de Tenemos un Acuedo" />
-
           <li><Link href="/"> Inicio </Link></li>
         </div>
-
         <div className="Navbar_inicio">
           <div className="navbar_opc">
             <li><Link href="/integrantes">Ejes</Link></li>
