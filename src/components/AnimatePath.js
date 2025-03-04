@@ -38,7 +38,7 @@ export default function AnimatePath() {
         start: "top center",
         end: () => "+=" + containerEl.offsetHeight,
         scrub: 1,
-        markers: true,
+        markers: false,
       },
       ease: "none",
       motionPath: {

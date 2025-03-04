@@ -52,7 +52,7 @@ const DualSlider = ({ topItems, bottomItems }) => {
     const timeline = gsap.timeline({
       scrollTrigger: {
         trigger: containerEl,
-        start: 'top 120px',
+        start: 'top top',
         pin: true,
         scrub: 1,
         end: () => `+=${maxScroll}`,
