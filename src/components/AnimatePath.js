@@ -9,10 +9,10 @@ import styles from "../styles/Linesvg.module.css";
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
 export default function AnimatePath() {
-  const [width, setWidth] = useState(window.innerWidth * 1.2); // 120% del ancho
+  const [width, setWidth] = useState(window.innerWidth * 1); // 100% del ancho
 
   useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth * 1.2);
+    const handleResize = () => setWidth(window.innerWidth * 1);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -27,10 +27,13 @@ export default function AnimatePath() {
     const motionPathEl = document.querySelector("#motionPath");
     if (!motionPathEl) return;
 
+    const tractorImg = document.querySelector("#tractorImg");
+    if (!tractorImg) return;
+
     const yOffset = 0;
 
     // Posiciona la imagen al inicio del path, con rotación fija a 180°
-    gsap.set("#tractorImg", {
+    gsap.set(tractorImg, {
       rotation: 0,
       motionPath: {
         path: "#motionPath",
@@ -42,13 +45,20 @@ export default function AnimatePath() {
       y: -yOffset,
     });
 
-    gsap.to("#tractorImg", {
+    gsap.to(tractorImg, {
       scrollTrigger: {
         trigger: containerEl,
         start: "top center",
         end: () => "+=" + containerEl.offsetHeight,
-        scrub: 12,
+        scrub: 8,
         markers: true,
+        onUpdate: (self) => {
+          if (self.direction < 0) {
+            tractorImg.src = "/img/trenRetorno.svg";
+          } else {
+            tractorImg.src = "/img/tren.svg";
+          }
+        },
       },
       ease: "none",
       motionPath: {
@@ -72,12 +82,11 @@ export default function AnimatePath() {
         viewBox={`0 0 ${width} 10`}
         preserveAspectRatio="none"
         xmlns="http://www.w3.org/2000/svg"
-
       >
         <path
           id="motionPath"
           className={styles.st0}
-          d={`M-${width * 0.1},10 L${width},10`}
+          d={`M-${width * 0.1},8 L${width},8`}
         />
       </svg>
       <img
@@ -87,7 +96,7 @@ export default function AnimatePath() {
         style={{
           position: "absolute",
           bottom: 0,
-          width: "200px",
+          width: "500px",
           height: "auto",
           zIndex: 10,
         }}

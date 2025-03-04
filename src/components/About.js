@@ -3,16 +3,13 @@ import AnimatePath from "./AnimatePath";
 
 export default function About() {
   return (
-    <section >
-      
+    <section>
       <div className={styles.aboutContainer}>
         <div className={styles.logoAcuerdo}>
-          {/* Aquí puedes colocar el logo o lo que necesites */}
+
         </div>
         <div className={styles.aboutTxt}>
-          <h2>
-            Un <span>Plan</span> para el <span className="spanDoarado">Futuro de Hidalgo</span>
-          </h2>
+          <h2>Un <span>Plan</span> para el <span className="spanDoarado">Futuro de Hidalgo</span></h2>
           <h3>Construido Contigo</h3>
           <p>
             El Gobierno de Hidalgo, con una visión participativa y enfocada en el bienestar de la población,
@@ -25,16 +22,12 @@ export default function About() {
             áreas del gobierno y la sociedad.
           </p>
         </div>
-
-
       </div>
       <div>
-
-<div className={styles.tren}>
-  <AnimatePath />
-</div>
-
-</div>
+        <div className={styles.tren}>
+          <AnimatePath />
+        </div>
+      </div>
     </section>
   );
 }
