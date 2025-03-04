@@ -1,10 +1,32 @@
 .aboutContainer {
   display: flex;
+  align-items: center;
   width: 100vw;
-  height: 100vh;
-  padding: 80px 20px;
-  background-color: #fff;
+  height: auto;
+  padding: 50px 20px;
+  background-color: rgba(255, 255, 0, 0.164);
+  gap: 20px;
 }
+
+.logoAcuerdo,
+.aboutTxt {
+  width: 50vw;
+  height: auto;
+}
+
+/* 
+.aboutTxt {
+  width: 60vw;
+  height: auto;
+  padding-right: 2.5vw;
+} */
+
+.tren {
+  width: 100vw;
+  height: 150px;
+  background-color: rgba(218, 71, 255, 0.116);
+}
+
 
 .aboutContainer p{
   text-align: justify;
@@ -17,17 +39,4 @@
 
 .aboutContainer h3 {
   color: var(--grisClr);
-}
-
-.tren{
-  width: 40vw;
-  height: auto;
-  padding-right: 2.5vw;
-  /* background-color: tomato; */
-}
-
-.aboutTxt {
-  width: 60vw;
-  height: auto;
-  padding-right: 2.5vw;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { MotionPathPlugin } from "gsap/dist/MotionPathPlugin";
@@ -9,11 +9,19 @@ import styles from "../styles/Linesvg.module.css";
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
 export default function AnimatePath() {
+  const [width, setWidth] = useState(window.innerWidth * 1.2); // 120% del ancho
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth * 1.2);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     const containerEl = document.querySelector("#aboutTren");
     if (!containerEl) return;
 
-    // Aseguramos que el SVG esté visible
+    // Aseguramos que el SVG se muestre
     gsap.set("#linesvg", { opacity: 1 });
 
     const motionPathEl = document.querySelector("#motionPath");
@@ -21,12 +29,14 @@ export default function AnimatePath() {
 
     const yOffset = 0;
 
+    // Posiciona la imagen al inicio del path, con rotación fija a 180°
     gsap.set("#tractorImg", {
+      rotation: 180,
       motionPath: {
         path: "#motionPath",
         align: "#motionPath",
-        alignOrigin: [0.5, 0.5],
-        autoRotate: true,
+        alignOrigin: [0, 1],
+        autoRotate: false,
         start: 0,
       },
       y: -yOffset,
@@ -38,16 +48,17 @@ export default function AnimatePath() {
         start: "top center",
         end: () => "+=" + containerEl.offsetHeight,
         scrub: 1,
-        markers: false,
+        markers: true,
       },
       ease: "none",
       motionPath: {
         path: "#motionPath",
         align: "#motionPath",
-        alignOrigin: [0.5, 0.5],
-        autoRotate: true,
+        alignOrigin: [0, 1],
+        autoRotate: false,
         start: 0,
       },
+      rotation: 180,
     });
   }, []);
 
@@ -55,14 +66,18 @@ export default function AnimatePath() {
     <div id="aboutTren" className={styles.aboutTren}>
       <svg
         id="linesvg"
-        viewBox="0 0 1366 768"
-        preserveAspectRatio="xMidYMid meet"
+        className={styles.linesvg}
+        width="100%"
+        height="100%"
+        viewBox={`0 0 ${width} 10`}
+        preserveAspectRatio="none"
         xmlns="http://www.w3.org/2000/svg"
+
       >
         <path
           id="motionPath"
           className={styles.st0}
-          d="m-3.8-12.6c62.4,169.5,124.8,339,187.2,508.5,8.8,18.4,26.3,31,46.5,33.6,403.9,52.1,807.8,104.2,1211.8,156.4"
+          d={`M-${width * 0.1},5 L${width},5`}
         />
       </svg>
       <img
@@ -71,8 +86,10 @@ export default function AnimatePath() {
         alt="Tren"
         style={{
           position: "absolute",
-          width: "300px",
+          bottom: 0,
+          width: "200px",
           height: "auto",
+          zIndex: 10,
         }}
       />
     </div>

@@ -1,33 +1,17 @@
+.aboutTren {
+  position: relative;
+  overflow: hidden;
+  width: 150%;
+  height: 100%;
+  border: 5px solid rgb(0, 255, 55);
+}
+
 .st0 {
-  fill: none;
-  /* stroke: rgb(42, 222, 144); */
-  stroke: none;
+  
+  fill: #fff;
   stroke-width: 10;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-miterlimit: 10;
+  /* Asegúrate de NO tener "stroke: none" */
 }
-
-.aboutTren {
-  position: relative;
-  left: -20px;
-  top: -90px;
-  overflow: hidden;
-  width: 100vw;
-  height: 100vh;
-  /* border: 5px solid red; */
-}
-
-.aboutTren svg{
-  position: relative;
-  left: -120px;
-  top: -30px;
-  width: calc(100% + 80px);
-  height: 100%;
-  fill: none;
-}
-
-
-
-
-/* style="position: absolute; width: 200px; height: auto; translate: none; rotate: none; scale: none; transform-origin: 50% 50%; transform: translate3d(-1615.06px, 1067.95px, 0px) rotate(2.351deg);" */
