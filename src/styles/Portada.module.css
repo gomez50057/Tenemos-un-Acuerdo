@@ -1,15 +1,72 @@
-.portada {
+.contentHeader {
+  display: flex;
+  text-align: center;
+  justify-content: flex-end;
   width: 100vw;
   height: 100vh;
-  text-align: center;
-  padding: 50px;
-  background-color: #f5f5f5;
+  color: var(--blanco);
+  margin: 2%;
 }
 
-.button {
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
+.contentHeader .headerTxt {
+  position: absolute;
+  top: 25vh;
+  left: 31px;
+  transform: translate(0%, -50%);
+  width: 40vw;
+  height: auto;
+  opacity: 0;
+  transition: opacity 1s ease-in;
+  z-index: 2;
+}
+
+.contentHeader .headerTxt img {
+  width: 100%;
+  height: auto;
+}
+
+
+.contentHeader .headerImg {
+  position: absolute;
+  bottom: -13%;
+  right: -250px;
+  width: 75vw;
+  opacity: 0;
+  transition: opacity 1s ease-in;
+  will-change: opacity, transform;
+}
+
+.contentHeader .headerImg img {
+  width: 100%;
+  height: auto;
+}
+
+.floatingImg {
+  display: block;
+  animation: floatingAnimation 10s infinite alternate ease-in-out, shadowAnimation 8s infinite alternate ease-in-out;
+  will-change: transform, filter;
+}
+
+@keyframes floatingAnimation {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-30px);
+  }
+}
+
+@keyframes shadowAnimation {
+  0% {
+    filter: drop-shadow(10px 10px 15px rgba(0, 0, 0, 0.2));
+  }
+
+  100% {
+    filter: drop-shadow(10px 10px 15px rgba(0, 0, 0, 0.35));
+  }
+}
+
+.fadeIn {
+  opacity: 1 !important;
 }
