@@ -135,6 +135,7 @@ const ProjectMap = () => {
         center: [20.44819465937593, -98.41534285830343],
         zoom: 9,
         zoomControl: false,
+        attributionControl: false, // Esto elimina cualquier texto de atribución
         minZoom: 8,
         maxZoom: 18,
       });
