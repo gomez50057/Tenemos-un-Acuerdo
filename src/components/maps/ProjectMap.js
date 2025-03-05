@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import 'leaflet/dist/leaflet.css';
@@ -19,6 +19,7 @@ const ProjectMap = () => {
     Hgo: true,
     escMediaSupPrivada: true,
   });
+  const [selectedMunicipality, setSelectedMunicipality] = useState("");
 
   const toggleLayerVisibility = useCallback((layerKey) => {
     setVisibleLayers((prev) => ({
@@ -125,6 +126,47 @@ const ProjectMap = () => {
     }
   }, []);
 
+  // Extraer lista de municipios únicos a partir de Hgo_Info
+  const municipalities = useMemo(() => {
+    if (!Hgo_Info || !Hgo_Info.features) return [];
+    const set = new Set();
+    Hgo_Info.features.forEach(feature => {
+      if (feature.properties && feature.properties.NOM_MUN) {
+        set.add(feature.properties.NOM_MUN);
+      }
+    });
+    return Array.from(set);
+  }, []);
+
+  // Función para centrar el mapa en el municipio seleccionado
+  const goToMunicipality = useCallback((municipality) => {
+    if (!municipality || !L || !mapRef.current) return;
+    // Filtrar las features correspondientes al municipio
+    const features = Hgo_Info.features.filter(
+      feature => feature.properties && feature.properties.NOM_MUN === municipality
+    );
+    if (features.length === 0) return;
+
+    // Crear un grupo temporal para centrar el mapa
+    const group = L.featureGroup(features.map(f => L.geoJSON(f)));
+    mapRef.current.fitBounds(group.getBounds(), { maxZoom: 12 });
+
+    // Crear una capa de destacado con estilo especial
+    const highlightStyle = {
+      color: '#691B32',
+      weight: 3,
+      fillColor: '#691B32',
+      fillOpacity: 0.4,
+    };
+    const highlightLayer = L.geoJSON(features, { style: highlightStyle }).addTo(mapRef.current);
+
+    // Eliminar la capa de destacado después de unos segundos
+    setTimeout(() => {
+      mapRef.current.removeLayer(highlightLayer);
+    }, 1500);
+  }, [L]);
+
+
   // Inicializa el mapa, configura los panes y aplica parches al plugin de impresión
   useEffect(() => {
     if (!L) return;
@@ -154,14 +196,12 @@ const ProjectMap = () => {
       // Importar dinámicamente el plugin de impresión
       import('./leafletComponents/Leaflet.BigImage.min.js')
         .then(() => {
-          // Aquí aplicamos un parche para incluir CircleMarker en la impresión
+          // Parchar el plugin para incluir CircleMarker en la impresión
           const originalGetPathLayer = L.Control.BigImage.prototype._getPathLayer;
-          L.Control.BigImage.prototype._getPathLayer = function(layer, callback) {
-            // Si es un CircleMarker, lo tratamos de forma personalizada
+          L.Control.BigImage.prototype._getPathLayer = function (layer, callback) {
             if (layer instanceof L.CircleMarker) {
               const center = this._map.project(layer.getLatLng())
                 .subtract(new L.Point(this.bounds.min.x, this.bounds.min.y));
-              // Guardamos la información en la colección de "markers" para que se dibuje luego
               this.markers[layer._leaflet_id] = {
                 isCircleMarker: true,
                 x: center.x,
@@ -179,9 +219,8 @@ const ProjectMap = () => {
             }
           };
 
-          // También parcheamos el método de dibujo para nuestros CircleMarker personalizados
           const originalDrawText = L.Control.BigImage.prototype._drawText;
-          L.Control.BigImage.prototype._drawText = function(obj, x, y) {
+          L.Control.BigImage.prototype._drawText = function (obj, x, y) {
             if (obj.isCircleMarker) {
               this.ctx.beginPath();
               this.ctx.arc(obj.x, obj.y, obj.radius, 0, 2 * Math.PI);
@@ -197,10 +236,9 @@ const ProjectMap = () => {
             }
           };
 
-          // Agregamos el control de impresión y aplicamos un delay para asegurar la renderización
           const bigImageControl = L.control.bigImage().addTo(mapRef.current);
           const originalPrint = bigImageControl._print;
-          bigImageControl._print = function() {
+          bigImageControl._print = function () {
             setTimeout(() => {
               originalPrint.call(this);
             }, 1000);
@@ -256,6 +294,24 @@ const ProjectMap = () => {
 
         <div id="sidebar" className={isSidebarOpen ? 'open' : ''}>
           <p className="sidebar-title">Proyectos</p>
+
+          <div className="municipio-dropdown">
+            <label htmlFor="municipioSelect"><b>Ir a Municipio:</b></label>
+            <select
+              id="municipioSelect"
+              value={selectedMunicipality}
+              onChange={(e) => {
+                setSelectedMunicipality(e.target.value);
+                goToMunicipality(e.target.value);
+              }}
+            >
+              <option value="">Seleccione Municipio</option>
+              {municipalities.map(m => (
+                <option key={m} value={m}>{m}</option>
+              ))}
+            </select>
+          </div>
+          
           <div className="dropdown">
             <button
               className="dropdown-toggle"
@@ -288,6 +344,7 @@ const ProjectMap = () => {
               </div>
             )}
           </div>
+          
         </div>
       </div>
     </section>
