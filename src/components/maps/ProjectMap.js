@@ -305,7 +305,7 @@ const ProjectMap = () => {
                 goToMunicipality(e.target.value);
               }}
             >
-              <option value="">Seleccione Municipio</option>
+              <option value="">Seleccione un Municipio</option>
               {municipalities.map(m => (
                 <option key={m} value={m}>{m}</option>
               ))}

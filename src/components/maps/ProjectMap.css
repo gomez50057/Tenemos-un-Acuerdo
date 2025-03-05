@@ -85,6 +85,13 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
+.municipio-dropdown select {
+  width: 100%;
+  height: auto;
+  padding: 12px 5px;
+  border-radius: 10px;
+}
+
 @media (max-width: 768px) {
   #fullscreenButton {
     top: 5px;
