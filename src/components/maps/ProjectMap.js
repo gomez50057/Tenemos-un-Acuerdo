@@ -4,12 +4,13 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import 'leaflet/dist/leaflet.css';
 import './ProjectMap.css';
+import './leafletComponents/Leaflet.BigImage.min.css';
 import { Hgo_Info } from './Hgo';
 import { escMediaSupPrivada } from './educacionHidalgo';
 
 const ProjectMap = () => {
   const mapRef = useRef(null);
-  const layersRef = useRef({}); // Para almacenar las capas agregadas
+  const layersRef = useRef({}); // Almacena las capas agregadas
   const [L, setL] = useState(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -124,7 +125,7 @@ const ProjectMap = () => {
     }
   }, []);
 
-  // Maneja la inicialización y actualización del mapa y sus panes
+  // Inicializa el mapa y sus panes; además, importa el plugin de impresión
   useEffect(() => {
     if (!L) return;
 
@@ -142,15 +143,23 @@ const ProjectMap = () => {
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
       }).addTo(mapRef.current);
 
-      // Crear panes personalizados para controlar el orden de renderizado
+      // Crear panes personalizados
       mapRef.current.createPane('polygonPane');
       mapRef.current.createPane('pointsPane');
-      // Asignar z-index: puntos encima de polígonos
+      // Asignar z-index: puntos por encima de polígonos
       mapRef.current.getPane('polygonPane').style.zIndex = 200;
       mapRef.current.getPane('pointsPane').style.zIndex = 300;
+
+      // Importar dinámicamente el plugin de impresión
+      import('./leafletComponents/Leaflet.BigImage.min.js')
+        .then(() => {
+          // Una vez cargado el plugin, agregar el control de impresión
+          L.control.bigImage().addTo(mapRef.current);
+        })
+        .catch(err => console.error("Error al cargar el plugin de impresión:", err));
     }
 
-    // Actualizar capas según el estado de visibleLayers
+    // Agregar o remover capa de polígonos
     if (visibleLayers.Hgo) {
       if (!layersRef.current.Hgo) addHgoZone();
     } else {
@@ -162,7 +171,6 @@ const ProjectMap = () => {
     } else {
       removeLayer('escMediaSupPrivada');
     }
-
   }, [L, visibleLayers, addHgoZone, addEducationLayer, removeLayer]);
 
   const toggleSidebar = useCallback(() => {
@@ -214,9 +222,7 @@ const ProjectMap = () => {
                     checked={visibleLayers.Hgo}
                     onChange={() => toggleLayerVisibility('Hgo')}
                   />
-                  <label htmlFor="checkboxHgo">
-                    Hidalgo
-                  </label>
+                  <label htmlFor="checkboxHgo">Hidalgo</label>
                 </div>
                 <div className="checkbox-container">
                   <input
