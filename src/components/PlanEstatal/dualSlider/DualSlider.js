@@ -43,14 +43,18 @@ const DualSlider = ({ topItems, bottomItems }) => {
     const offset = 80;
 
     // Slider superior:
+    // - Inicial: casi fuera, pero 80px adentro.
+    // - Final: desplazado hasta que todo el contenido esté visible, con el mismo offset.
     const topInitial = containerWidth - offset;
     const topFinal = containerWidth - topWrapperWidth - offset;
 
     // Slider inferior:
+    // - Inicial: completamente fuera a la izquierda, pero 80px adentro.
+    // - Final: se mueve hasta quedar completamente visible con 80px desde el borde izquierdo.
     const bottomInitial = -bottomWrapperWidth + offset;
     const bottomFinal = offset;
 
-    // Estados iniciales.
+    // Estados iniciales
     gsap.set(topWrapper, { x: topInitial });
     gsap.set(bottomWrapper, { x: bottomInitial });
 
@@ -68,13 +72,13 @@ const DualSlider = ({ topItems, bottomItems }) => {
       },
     });
 
-    // Animación del slider superior.
+    // Animación del slider superior: de topInitial a topFinal.
     timeline.to(topWrapper, {
       x: topFinal,
       ease: 'none',
     }, 0);
 
-    // Animación del slider inferior.
+    // Animación del slider inferior: de bottomInitial a bottomFinal.
     timeline.to(bottomWrapper, {
       x: bottomFinal,
       ease: 'none',
