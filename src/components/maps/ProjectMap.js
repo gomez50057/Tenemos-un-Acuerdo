@@ -143,7 +143,7 @@ const ProjectMap = () => {
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
       }).addTo(mapRef.current);
 
-      // Crear panes personalizados
+      // Crear panes personalizados para controlar el orden de renderizado
       mapRef.current.createPane('polygonPane');
       mapRef.current.createPane('pointsPane');
       // Asignar z-index: puntos por encima de polígonos
@@ -159,7 +159,7 @@ const ProjectMap = () => {
         .catch(err => console.error("Error al cargar el plugin de impresión:", err));
     }
 
-    // Agregar o remover capa de polígonos
+    // Actualizar capas según el estado de visibleLayers
     if (visibleLayers.Hgo) {
       if (!layersRef.current.Hgo) addHgoZone();
     } else {
