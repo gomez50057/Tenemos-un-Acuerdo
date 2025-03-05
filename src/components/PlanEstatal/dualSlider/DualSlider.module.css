@@ -98,3 +98,37 @@
   border-radius: 0 80px 0 0;
   background-color: aqua;
 }
+
+
+/* Tamaño para 'md' */
+/* @media (min-width: 576px) {
+  .dualContainer {
+    background-color: lightblue;
+  }
+} */
+
+/* Tamaño para 'lg' */
+/* @media (min-width: 768px) {
+  .dualContainer {
+    background-color: lightgreen;
+  }
+} */
+
+/* Tamaño para 'xl' */
+/* @media (min-width: 1024px) {
+  .dualContainer {
+    background-color: lightcoral;
+  }
+} */
+
+/* Tamaño para 'xxl' */
+@media (min-width: 1400px) {
+  /* .dualContainer {
+    background-color: lightgoldenrodyellow;
+  } */
+
+  .wrapper {
+    min-height: 40vh;
+  }
+
+}
