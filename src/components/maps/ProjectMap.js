@@ -126,7 +126,7 @@ const ProjectMap = () => {
     }
   }, []);
 
-  // Extraer lista de municipios únicos a partir de Hgo_Info
+  // Extraer lista de municipios únicos a partir de Hgo_Info y ordenarlos alfabéticamente
   const municipalities = useMemo(() => {
     if (!Hgo_Info || !Hgo_Info.features) return [];
     const set = new Set();
@@ -135,10 +135,10 @@ const ProjectMap = () => {
         set.add(feature.properties.NOM_MUN);
       }
     });
-    return Array.from(set);
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
   }, []);
 
-  // Función para centrar el mapa en el municipio seleccionado
+  // Función para centrar el mapa en el municipio seleccionado y resaltar la zona
   const goToMunicipality = useCallback((municipality) => {
     if (!municipality || !L || !mapRef.current) return;
     // Filtrar las features correspondientes al municipio
@@ -165,7 +165,6 @@ const ProjectMap = () => {
       mapRef.current.removeLayer(highlightLayer);
     }, 1500);
   }, [L]);
-
 
   // Inicializa el mapa, configura los panes y aplica parches al plugin de impresión
   useEffect(() => {
@@ -294,7 +293,6 @@ const ProjectMap = () => {
 
         <div id="sidebar" className={isSidebarOpen ? 'open' : ''}>
           <p className="sidebar-title">Proyectos</p>
-
           <div className="municipio-dropdown">
             <label htmlFor="municipioSelect"><b>Ir a Municipio:</b></label>
             <select
