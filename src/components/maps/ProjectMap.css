@@ -85,11 +85,17 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-.municipio-dropdown select {
+.municipio-dropdown{
+  display: flex;
+  flex-direction: column;
+}
+
+.municipio-dropdown input {
   width: 100%;
   height: auto;
   padding: 12px 5px;
   border-radius: 10px;
+  border: none;
 }
 
 @media (max-width: 768px) {

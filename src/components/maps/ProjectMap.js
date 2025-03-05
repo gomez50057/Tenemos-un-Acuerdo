@@ -66,7 +66,6 @@ const ProjectMap = () => {
     content += `<b>Superficie:</b> ${superficieMunicipal}<br>`;
     content += `<b>Población Metropolitana:</b> ${poblacionMetropolitana}<br>`;
     content += `<div class='PopupSubT'><b>Instrumentos de Planeación</b></div>`;
-
     content += PMDU !== "No existe"
       ? `<b>PMDU:</b> <a href='${LINKPMDU || "#"}' target='_blank'>${NOM_LINK_P || "Consultar"}</a> <b>(${FECH || "N/A"})</b>`
       : `<b>PMDU:</b> ${PMDU}`;
@@ -169,7 +168,6 @@ const ProjectMap = () => {
   // Inicializa el mapa, configura los panes y aplica parches al plugin de impresión
   useEffect(() => {
     if (!L) return;
-
     if (!mapRef.current) {
       // Inicializa el mapa una sola vez
       mapRef.current = L.map('map', {
@@ -293,23 +291,26 @@ const ProjectMap = () => {
 
         <div id="sidebar" className={isSidebarOpen ? 'open' : ''}>
           <p className="sidebar-title">Proyectos</p>
+
           <div className="municipio-dropdown">
             <label htmlFor="municipioSelect"><b>Ir a Municipio:</b></label>
-            <select
+            <input
+              list="municipalities"
               id="municipioSelect"
+              placeholder="Seleccione un Municipio..."
               value={selectedMunicipality}
               onChange={(e) => {
                 setSelectedMunicipality(e.target.value);
                 goToMunicipality(e.target.value);
               }}
-            >
-              <option value="">Seleccione un Municipio</option>
+            />
+            <datalist id="municipalities">
               {municipalities.map(m => (
-                <option key={m} value={m}>{m}</option>
+                <option key={m} value={m} />
               ))}
-            </select>
+            </datalist>
           </div>
-          
+
           <div className="dropdown">
             <button
               className="dropdown-toggle"
