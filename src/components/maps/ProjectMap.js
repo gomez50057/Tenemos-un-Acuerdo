@@ -4,7 +4,7 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import 'leaflet/dist/leaflet.css';
 import './ProjectMap.css';
-import { Hgo_Info } from './ZM';
+import { Hgo_Info } from './Hgo';
 import { escMediaSupPrivada } from './educacionHidalgo';
 
 const ProjectMap = () => {
