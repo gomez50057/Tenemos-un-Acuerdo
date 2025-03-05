@@ -4,6 +4,6 @@
 }
 
 .vinoItalic {
-  color: var(--vinoOsc); /* O el valor hexadecimal que desees para vino */
+  color: var(--vinoOsc);
   font-style: italic;
 }
