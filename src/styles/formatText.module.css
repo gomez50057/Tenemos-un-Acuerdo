@@ -1,0 +1,9 @@
+.goldItalic {
+  color: var(--doradoOsc);
+  font-style: italic;
+}
+
+.vinoItalic {
+  color: var(--vinoOsc); /* O el valor hexadecimal que desees para vino */
+  font-style: italic;
+}
