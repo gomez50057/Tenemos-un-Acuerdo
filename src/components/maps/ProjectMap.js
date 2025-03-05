@@ -1,23 +1,18 @@
 "use client";
-
 import React, { useEffect, useRef, useState } from 'react';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import 'leaflet/dist/leaflet.css';
 import './ProjectMap.css';
-import { ZMP_Info, ZMT_Info, ZMTUL_Info, zmvm_InfoGeneral } from './ZM';
+import { ZMP_Info } from './ZM';
 
 const ProjectMap = () => {
   const mapRef = useRef(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [L, setL] = useState(null); // Estado para Leaflet
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Estado para el menú desplegable
-  const [visibleZones, setVisibleZones] = useState({
-    ZMP: true,
-    ZMTula: true,
-    ZMTulancingo: true,
-    ZMVM: true,
-  });
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [L, setL] = useState(null);
+  const [visibleZones, setVisibleZones] = useState({ ZMP: true });
 
   const toggleZoneVisibility = (zone) => {
     setVisibleZones((prevState) => ({
@@ -28,10 +23,11 @@ const ProjectMap = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      import('leaflet').then((module) => {
-        setL(module.default);
-        import('leaflet/dist/leaflet.css');
-      });
+      import('leaflet')
+        .then((module) => {
+          setL(module.default);
+        })
+        .catch((err) => console.error("Error al cargar Leaflet:", err));
     }
   }, []);
 
@@ -45,7 +41,7 @@ const ProjectMap = () => {
       weight,
     });
 
-    const createPopupContentMetropolitanas = (feature) => {
+    const createPopupContent = (feature) => {
       const {
         POBMUN,
         POBFEM,
@@ -72,15 +68,15 @@ const ProjectMap = () => {
       const poblacionMetropolitana = POB_ESTATA ? POB_ESTATA.toLocaleString() : "No disponible";
 
       let popupContent = `
-                <div class='PopupT'><b>Zona Metropolitana de </b>${NO_Zona || "Desconocida"}</div>
-                <b>Municipio:</b> ${NOM_MUN || "Desconocido"}
-                <br><b>Población Municipal:</b> ${poblacionMunicipal}
-                <br><b>Mujeres:</b> ${poblacionFemenina}
-                <br><b>Hombres:</b> ${poblacionMasculina}
-                <br><b>Superficie:</b> ${superficieMunicipal}
-                <br><b>Población Metropolitana:</b> ${poblacionMetropolitana}
-                <div class='PopupSubT'><b>Instrumentos de Planeación </b></div>
-            `;
+        <div class='PopupT'><b>Zona Metropolitana de </b>${NO_Zona || "Desconocida"}</div>
+        <b>Municipio:</b> ${NOM_MUN || "Desconocido"}
+        <br><b>Población Municipal:</b> ${poblacionMunicipal}
+        <br><b>Mujeres:</b> ${poblacionFemenina}
+        <br><b>Hombres:</b> ${poblacionMasculina}
+        <br><b>Superficie:</b> ${superficieMunicipal}
+        <br><b>Población Metropolitana:</b> ${poblacionMetropolitana}
+        <div class='PopupSubT'><b>Instrumentos de Planeación </b></div>
+      `;
 
       if (PMDU !== "No existe") {
         popupContent += `<b>PMDU:</b> <a href='${LINKPMDU || "#"}' target='_blank'>${NOM_LINK_P || "Consultar"}</a><b> (${FECH || "N/A"})</b>`;
@@ -99,69 +95,14 @@ const ProjectMap = () => {
       return popupContent;
     };
 
-    const createPopupContentZMVM = (feature) => {
-      const {
-        POBMUN,
-        POBFEM,
-        POBMAS,
-        Superficie,
-        NOM_ENT,
-        NOM_MUN,
-        POBMETRO,
-      } = feature.properties;
-
-      const poblacionMunicipal = POBMUN ? POBMUN.toLocaleString() : "No disponible";
-      const poblacionFemenina = POBFEM ? POBFEM.toLocaleString() : "No disponible";
-      const poblacionMasculina = POBMAS ? POBMAS.toLocaleString() : "No disponible";
-      const superficieMunicipal = Superficie ? `${Superficie.toFixed(3)} km²` : "No disponible";
-      const poblacionMetropolitana = POBMETRO ? POBMETRO.toLocaleString() : "No disponible";
-
-      let popupContent = `
-                <div class='PopupT'>${NOM_ENT || "Entidad desconocida"}</div>
-                <b>Nombre del Municipio:</b> ${NOM_MUN || "Desconocido"}
-                <br><b>Población Municipal:</b> ${poblacionMunicipal}
-                <br><b>Mujeres:</b> ${poblacionFemenina}
-                <br><b>Hombres:</b> ${poblacionMasculina}
-                <br><b>Superficie:</b> ${superficieMunicipal}
-                <br><b>Población Metropolitana:</b> ${poblacionMetropolitana}
-            `;
-
-      return popupContent;
-    };
-
-    const geoJSONMetropolitanas = (data, fillColor, color) => {
+    const addZMPZone = () => {
       if (!L) return;
-      return L.geoJSON(data, {
-        style: commonStyle(fillColor, color),
+      return L.geoJSON(ZMP_Info, {
+        style: commonStyle('#DEC9A3', '#DEC9A3'),
         onEachFeature: (feature, layer) => {
-          layer.bindPopup(createPopupContentMetropolitanas(feature));
+          layer.bindPopup(createPopupContent(feature));
         }
       }).addTo(mapRef.current);
-    };
-
-    const geoJSONZMVM = (data) => {
-      if (!L) return;
-      return L.geoJSON(data, {
-        style: (feature) => {
-          const colorMap = {
-            "Hidalgo": "#BC955B",
-            "Estado de México": "#691B31",
-            "Ciudad de México": "#3a9680",
-          };
-          const color = colorMap[feature.properties.NOM_ENT] || "orange";
-          return commonStyle(color, color, 2.6);
-        },
-        onEachFeature: (feature, layer) => {
-          layer.bindPopup(createPopupContentZMVM(feature));
-        }
-      }).addTo(mapRef.current);
-    };
-
-    const addLayers = () => {
-      if (visibleZones.ZMP) geoJSONMetropolitanas(ZMP_Info, '#DEC9A3', '#DEC9A3');
-      if (visibleZones.ZMTula) geoJSONMetropolitanas(ZMT_Info, '#98989a', '#98989a');
-      if (visibleZones.ZMTulancingo) geoJSONMetropolitanas(ZMTUL_Info, '#A02142', '#A02142');
-      if (visibleZones.ZMVM) geoJSONZMVM(zmvm_InfoGeneral);
     };
 
     if (mapRef.current) {
@@ -170,13 +111,15 @@ const ProjectMap = () => {
           mapRef.current.removeLayer(layer);
         }
       });
-      addLayers();
+      if (visibleZones.ZMP) {
+        addZMPZone();
+      }
     } else {
       mapRef.current = L.map('map', {
-        center: [19.6296533, -98.9263916],
-        zoom: 9,
+        center: [20.44819465937593, -98.41534285830343],
+        zoom: 8,
         zoomControl: false,
-        minZoom: 8,
+        minZoom: 9,
         maxZoom: 18,
       });
 
@@ -185,12 +128,14 @@ const ProjectMap = () => {
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
       }).addTo(mapRef.current);
 
-      addLayers();
+      if (visibleZones.ZMP) {
+        addZMPZone();
+      }
     }
   }, [L, visibleZones]);
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+    setIsSidebarOpen((prev) => !prev);
     setTimeout(() => mapRef.current?.invalidateSize(), 300);
   };
 
@@ -201,7 +146,7 @@ const ProjectMap = () => {
       } else if (document.fullscreenElement) {
         document.exitFullscreen();
       }
-      setIsFullScreen((prevState) => !prevState);
+      setIsFullScreen((prev) => !prev);
     }
   };
 
@@ -223,7 +168,10 @@ const ProjectMap = () => {
         <div id="sidebar" className={isSidebarOpen ? 'open' : ''}>
           <p className="sidebar-title">Proyectos</p>
           <div className="dropdown">
-            <button className="dropdown-toggle" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+            <button
+              className="dropdown-toggle"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            >
               Zonas Metropolitanas
             </button>
             {isDropdownOpen && (
@@ -235,40 +183,14 @@ const ProjectMap = () => {
                     checked={visibleZones.ZMP}
                     onChange={() => toggleZoneVisibility('ZMP')}
                   />
-                  <label htmlFor="checkboxZMP">Zona Metropolitana de Pachuca</label>
-                </div>
-                <div className="checkbox-container">
-                  <input
-                    type="checkbox"
-                    id="checkboxZMTula"
-                    checked={visibleZones.ZMTula}
-                    onChange={() => toggleZoneVisibility('ZMTula')}
-                  />
-                  <label htmlFor="checkboxZMTula">Zona Metropolitana de Tula</label>
-                </div>
-                <div className="checkbox-container">
-                  <input
-                    type="checkbox"
-                    id="checkboxZMTulancingo"
-                    checked={visibleZones.ZMTulancingo}
-                    onChange={() => toggleZoneVisibility('ZMTulancingo')}
-                  />
-                  <label htmlFor="checkboxZMTulancingo">Zona Metropolitana de Tulancingo</label>
-                </div>
-                <div className="checkbox-container">
-                  <input
-                    type="checkbox"
-                    id="checkboxZMVM"
-                    checked={visibleZones.ZMVM}
-                    onChange={() => toggleZoneVisibility('ZMVM')}
-                  />
-                  <label htmlFor="checkboxZMVM">Zona Metropolitana del Valle de México</label>
+                  <label htmlFor="checkboxZMP">
+                    Zona Metropolitana de Pachuca
+                  </label>
                 </div>
               </div>
             )}
           </div>
         </div>
-
       </div>
     </section>
   );
