@@ -125,7 +125,7 @@ const ProjectMap = () => {
     }
   }, []);
 
-  // Inicializa el mapa y sus panes; además, importa el plugin de impresión
+  // Inicializa el mapa, configura los panes y aplica parches al plugin de impresión
   useEffect(() => {
     if (!L) return;
 
@@ -135,7 +135,7 @@ const ProjectMap = () => {
         center: [20.44819465937593, -98.41534285830343],
         zoom: 9,
         zoomControl: false,
-        attributionControl: false, // Esto elimina cualquier texto de atribución
+        attributionControl: false,
         minZoom: 8,
         maxZoom: 18,
       });
@@ -154,8 +154,57 @@ const ProjectMap = () => {
       // Importar dinámicamente el plugin de impresión
       import('./leafletComponents/Leaflet.BigImage.min.js')
         .then(() => {
-          // Una vez cargado el plugin, agregar el control de impresión
-          L.control.bigImage().addTo(mapRef.current);
+          // Aquí aplicamos un parche para incluir CircleMarker en la impresión
+          const originalGetPathLayer = L.Control.BigImage.prototype._getPathLayer;
+          L.Control.BigImage.prototype._getPathLayer = function(layer, callback) {
+            // Si es un CircleMarker, lo tratamos de forma personalizada
+            if (layer instanceof L.CircleMarker) {
+              const center = this._map.project(layer.getLatLng())
+                .subtract(new L.Point(this.bounds.min.x, this.bounds.min.y));
+              // Guardamos la información en la colección de "markers" para que se dibuje luego
+              this.markers[layer._leaflet_id] = {
+                isCircleMarker: true,
+                x: center.x,
+                y: center.y,
+                radius: layer.getRadius(),
+                fillColor: layer.options.fillColor,
+                color: layer.options.color,
+                weight: layer.options.weight,
+                fillOpacity: layer.options.fillOpacity,
+                opacity: layer.options.opacity
+              };
+              callback();
+            } else {
+              originalGetPathLayer.call(this, layer, callback);
+            }
+          };
+
+          // También parcheamos el método de dibujo para nuestros CircleMarker personalizados
+          const originalDrawText = L.Control.BigImage.prototype._drawText;
+          L.Control.BigImage.prototype._drawText = function(obj, x, y) {
+            if (obj.isCircleMarker) {
+              this.ctx.beginPath();
+              this.ctx.arc(obj.x, obj.y, obj.radius, 0, 2 * Math.PI);
+              this.ctx.fillStyle = obj.fillColor;
+              this.ctx.globalAlpha = obj.fillOpacity;
+              this.ctx.fill();
+              this.ctx.lineWidth = obj.weight;
+              this.ctx.strokeStyle = obj.color;
+              this.ctx.globalAlpha = obj.opacity;
+              this.ctx.stroke();
+            } else {
+              originalDrawText.call(this, obj, x, y);
+            }
+          };
+
+          // Agregamos el control de impresión y aplicamos un delay para asegurar la renderización
+          const bigImageControl = L.control.bigImage().addTo(mapRef.current);
+          const originalPrint = bigImageControl._print;
+          bigImageControl._print = function() {
+            setTimeout(() => {
+              originalPrint.call(this);
+            }, 1000);
+          };
         })
         .catch(err => console.error("Error al cargar el plugin de impresión:", err));
     }
