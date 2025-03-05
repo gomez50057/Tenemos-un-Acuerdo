@@ -15,6 +15,18 @@ const DualSlider = ({ topItems, bottomItems }) => {
   const topWrapperRef = useRef(null);
   const bottomWrapperRef = useRef(null);
 
+  // Función para transformar el nombre en un slug URL-safe.
+  const slugify = (text) => {
+    return text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-') // Reemplaza espacios por guiones
+      .replace(/[^A-Za-z0-9\-]+/g, '')
+      .replace(/[^\w\-]+/g, '') // Elimina caracteres especiales
+      .replace(/\-\-+/g, '-'); // Reemplaza guiones múltiples por uno solo
+  };
+
   useEffect(() => {
     const containerEl = containerRef.current;
     const topWrapper = topWrapperRef.current;
@@ -31,18 +43,14 @@ const DualSlider = ({ topItems, bottomItems }) => {
     const offset = 80;
 
     // Slider superior:
-    // - Inicial: casi fuera, pero 80px adentro.
-    // - Final: desplazado hasta que todo el contenido esté visible, con el mismo offset.
     const topInitial = containerWidth - offset;
     const topFinal = containerWidth - topWrapperWidth - offset;
 
     // Slider inferior:
-    // - Inicial: completamente fuera a la izquierda, pero 80px adentro.
-    // - Final: se mueve hasta quedar completamente visible con 80px desde el borde izquierdo.
     const bottomInitial = -bottomWrapperWidth + offset;
     const bottomFinal = offset;
 
-    // Definimos los estados iniciales.
+    // Estados iniciales.
     gsap.set(topWrapper, { x: topInitial });
     gsap.set(bottomWrapper, { x: bottomInitial });
 
@@ -60,13 +68,13 @@ const DualSlider = ({ topItems, bottomItems }) => {
       },
     });
 
-    // Animación del slider superior: de topInitial a topFinal.
+    // Animación del slider superior.
     timeline.to(topWrapper, {
       x: topFinal,
       ease: 'none',
     }, 0);
 
-    // Animación del slider inferior: de bottomInitial a bottomFinal.
+    // Animación del slider inferior.
     timeline.to(bottomWrapper, {
       x: bottomFinal,
       ease: 'none',
@@ -76,6 +84,12 @@ const DualSlider = ({ topItems, bottomItems }) => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, [topItems, bottomItems]);
+
+  // Función para manejar el clic en la slide
+  const handleSlideClick = (itemName) => {
+    const url = `/plan-estatal/${slugify(itemName)}`;
+    window.open(url, '_blank');
+  };
 
   return (
     <div className={styles.dualContainer} ref={containerRef}>
@@ -87,7 +101,12 @@ const DualSlider = ({ topItems, bottomItems }) => {
             <p>Estratégocos para el Desarrollo</p>
           </div>
           {topItems.map((item, index) => (
-            <div key={item.id || index} className={styles.slide}>
+            <div 
+              key={item.id || index} 
+              className={styles.slide} 
+              onClick={() => handleSlideClick(item.name)}
+              style={{ cursor: 'pointer' }}
+            >
               <div className={styles.text}>
                 <h2>{formatText(item.name)}</h2>
                 <p>{formatText(item.description)}</p>
@@ -109,7 +128,12 @@ const DualSlider = ({ topItems, bottomItems }) => {
       <div className={styles.row}>
         <div className={styles.wrapper} ref={bottomWrapperRef}>
           {[...bottomItems].reverse().map((item, index) => (
-            <div key={item.id || index} className={styles.slide}>
+            <div 
+              key={item.id || index} 
+              className={styles.slide} 
+              onClick={() => handleSlideClick(item.name)}
+              style={{ cursor: 'pointer' }}
+            >
               <div className={styles.text}>
                 <h2>{formatText(item.name)}</h2>
                 <p>{formatText(item.description)}</p>
