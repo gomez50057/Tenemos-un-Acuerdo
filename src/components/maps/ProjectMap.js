@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import 'leaflet/dist/leaflet.css';
@@ -9,6 +9,7 @@ import { escMediaSupPrivada } from './educacionHidalgo';
 
 const ProjectMap = () => {
   const mapRef = useRef(null);
+  const layersRef = useRef({}); // Para almacenar las capas agregadas
   const [L, setL] = useState(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -18,13 +19,12 @@ const ProjectMap = () => {
     escMediaSupPrivada: true,
   });
 
-  // Función para alternar la visibilidad de cada capa
-  const toggleLayerVisibility = (layerKey) => {
+  const toggleLayerVisibility = useCallback((layerKey) => {
     setVisibleLayers((prev) => ({
       ...prev,
       [layerKey]: !prev[layerKey],
     }));
-  };
+  }, []);
 
   // Carga dinámica de Leaflet
   useEffect(() => {
@@ -35,34 +35,19 @@ const ProjectMap = () => {
     }
   }, []);
 
-  // Función de estilo común para capas poligonales
-  const commonStyle = (fillColor, color, weight = 2) => ({
+  const commonStyle = useCallback((fillColor, color, weight = 2) => ({
     fillColor,
     fillOpacity: 0.3,
     color,
     weight,
-  });
+  }), []);
 
-  // Función para crear el popup de la capa Hgo_Info
-  const createPopupHgo = (feature) => {
-    // Se reemplaza la cabecera del popup según lo solicitado
+  const createPopupHgo = useCallback((feature) => {
     const popupHeader = `<div class='PopupT'><b>Hidalgo</b></div>`;
     const {
-      NOM_MUN,
-      POBMUN,
-      POBFEM,
-      POBMAS,
-      Superficie,
-      POB_ESTATA,
-      PMDU,
-      NOM_LINK_P,
-      FECH,
-      LINKPMDU,
-      LINKPMD,
-      FECHPMD,
-      ATLAS,
-      LINKATLAS,
-      FECHATLAS,
+      NOM_MUN, POBMUN, POBFEM, POBMAS, Superficie,
+      POB_ESTATA, PMDU, NOM_LINK_P, FECH,
+      LINKPMDU, LINKPMD, FECHPMD, ATLAS, LINKATLAS, FECHATLAS,
     } = feature.properties;
 
     const poblacionMunicipal = POBMUN ? POBMUN.toLocaleString() : "No disponible";
@@ -83,18 +68,14 @@ const ProjectMap = () => {
     content += PMDU !== "No existe"
       ? `<b>PMDU:</b> <a href='${LINKPMDU || "#"}' target='_blank'>${NOM_LINK_P || "Consultar"}</a> <b>(${FECH || "N/A"})</b>`
       : `<b>PMDU:</b> ${PMDU}`;
-      
     content += `<br><b>PMD:</b> <a href='${LINKPMD || "#"}' target='_blank'>Consultar</a> <b>(${FECHPMD || "N/A"})</b>`;
-      
     content += ATLAS !== "No existe"
       ? `<br><b>Atlas de Riesgos:</b> <a href='${LINKATLAS || "#"}' target='_blank'>Consultar</a> <b>(${FECHATLAS || "N/A"})</b>`
       : `<br><b>Atlas de Riesgos:</b> ${ATLAS}`;
-
     return content;
-  };
+  }, []);
 
-  // Función para crear el popup de la capa de educación
-  const createPopupEducation = (feature) => {
+  const createPopupEducation = useCallback((feature) => {
     const { nom_estab, nom_loc, nom_mun, codigo_act, telefono, www } = feature.properties;
     let content = `<b>${nom_estab || "Escuela"}</b><br>`;
     if (nom_loc) content += `<b>Localidad:</b> ${nom_loc}<br>`;
@@ -103,21 +84,23 @@ const ProjectMap = () => {
     if (telefono) content += `<b>Teléfono:</b> ${telefono}<br>`;
     if (www && www !== "-999") content += `<b>Web:</b> <a href='${www}' target='_blank'>Ver sitio</a>`;
     return content;
-  };
+  }, []);
 
-  // Agrega la capa de Hgo_Info (polígono)
-  const addHgoZone = () => {
-    return L.geoJSON(Hgo_Info, {
+  // Funciones para agregar capas y guardarlas en layersRef
+  const addHgoZone = useCallback(() => {
+    const layer = L.geoJSON(Hgo_Info, {
+      pane: 'polygonPane',
       style: commonStyle('#DEC9A3', '#DEC9A3'),
       onEachFeature: (feature, layer) => {
         layer.bindPopup(createPopupHgo(feature));
       }
     }).addTo(mapRef.current);
-  };
+    layersRef.current.Hgo = layer;
+  }, [L, commonStyle, createPopupHgo]);
 
-  // Agrega la capa de educación (puntos)
-  const addEducationLayer = () => {
-    return L.geoJSON(escMediaSupPrivada, {
+  const addEducationLayer = useCallback(() => {
+    const layer = L.geoJSON(escMediaSupPrivada, {
+      pane: 'pointsPane',
       pointToLayer: (feature, latlng) =>
         L.circleMarker(latlng, {
           radius: 6,
@@ -131,21 +114,22 @@ const ProjectMap = () => {
         layer.bindPopup(createPopupEducation(feature));
       }
     }).addTo(mapRef.current);
-  };
+    layersRef.current.escMediaSupPrivada = layer;
+  }, [L, createPopupEducation]);
 
-  // Maneja la inicialización y actualización de las capas en el mapa
+  const removeLayer = useCallback((layerKey) => {
+    if (layersRef.current[layerKey] && mapRef.current) {
+      mapRef.current.removeLayer(layersRef.current[layerKey]);
+      delete layersRef.current[layerKey];
+    }
+  }, []);
+
+  // Maneja la inicialización y actualización del mapa y sus panes
   useEffect(() => {
     if (!L) return;
 
-    // Si el mapa ya existe, removemos las capas GeoJSON para evitar duplicados
-    if (mapRef.current) {
-      mapRef.current.eachLayer((layer) => {
-        if (layer instanceof L.GeoJSON) {
-          mapRef.current.removeLayer(layer);
-        }
-      });
-    } else {
-      // Inicializa el mapa
+    if (!mapRef.current) {
+      // Inicializa el mapa una sola vez
       mapRef.current = L.map('map', {
         center: [20.44819465937593, -98.41534285830343],
         zoom: 9,
@@ -153,27 +137,40 @@ const ProjectMap = () => {
         minZoom: 8,
         maxZoom: 18,
       });
-
       L.tileLayer('http://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
         maxZoom: 20,
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
       }).addTo(mapRef.current);
+
+      // Crear panes personalizados para controlar el orden de renderizado
+      mapRef.current.createPane('polygonPane');
+      mapRef.current.createPane('pointsPane');
+      // Asignar z-index: puntos encima de polígonos
+      mapRef.current.getPane('polygonPane').style.zIndex = 200;
+      mapRef.current.getPane('pointsPane').style.zIndex = 300;
     }
 
-    // Agregar capas según el estado de visibilidad
-    if (visibleLayers.Hgo) addHgoZone();
-    if (visibleLayers.escMediaSupPrivada) addEducationLayer();
+    // Actualizar capas según el estado de visibleLayers
+    if (visibleLayers.Hgo) {
+      if (!layersRef.current.Hgo) addHgoZone();
+    } else {
+      removeLayer('Hgo');
+    }
 
-  }, [L, visibleLayers]);
+    if (visibleLayers.escMediaSupPrivada) {
+      if (!layersRef.current.escMediaSupPrivada) addEducationLayer();
+    } else {
+      removeLayer('escMediaSupPrivada');
+    }
 
-  // Alterna la visibilidad del sidebar
-  const toggleSidebar = () => {
+  }, [L, visibleLayers, addHgoZone, addEducationLayer, removeLayer]);
+
+  const toggleSidebar = useCallback(() => {
     setIsSidebarOpen((prev) => !prev);
     setTimeout(() => mapRef.current?.invalidateSize(), 300);
-  };
+  }, []);
 
-  // Alterna el modo de pantalla completa
-  const toggleFullScreen = () => {
+  const toggleFullScreen = useCallback(() => {
     if (typeof window !== 'undefined') {
       if (!isFullScreen && mapRef.current) {
         mapRef.current.getContainer().requestFullscreen();
@@ -182,7 +179,7 @@ const ProjectMap = () => {
       }
       setIsFullScreen((prev) => !prev);
     }
-  };
+  }, [isFullScreen]);
 
   return (
     <section className="mapaConte">
