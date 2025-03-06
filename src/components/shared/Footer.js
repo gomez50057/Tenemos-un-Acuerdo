@@ -19,10 +19,6 @@ const Footer = () => {
         </a>
       </div>
 
-      {/* <div className="image-container">
-                <img src={`${imgBasePath}logo_footer.png`} alt="img_representativa" />
-            </div> */}
-
       <div className="footer_contacto">
 
         <div className="footer_contacto_txt">
