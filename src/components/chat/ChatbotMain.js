@@ -10,9 +10,6 @@ const ChatbotMain = () => {
   const [formData, setFormData] = useState({});
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState("menu");
-  const [selectedZone, setSelectedZone] = useState("");
-
-  const handleCollapseChat = () => setIsChatOpen(false);
 
   const handleMenuClick = (step, zone = "") => {
     setFormData({});
@@ -23,7 +20,6 @@ const ChatbotMain = () => {
   const resetToMainMenu = () => {
     setCurrentStep("menu");
     setFormData({ name: "", description: "", municipalities: "" });
-    setSelectedZone("");
   };
 
   const renderMenu = () => (
@@ -43,53 +39,89 @@ const ChatbotMain = () => {
             <img src="/img/chatBot/proposal.png" alt="Icono" />
           </div>
           <div className={styles.content}>
-            <h4>Quiero hacer una propuesta metropolitana</h4>
+            <h4>eujmeplo de formulario</h4>
             <p>Desarrolla una idea pensando en el futuro Metropolitano.</p>
           </div>
         </li>
-        <li onClick={() => handleMenuClick("zoneInfo")}>
+
+
+        <li onClick={() => handleMenuClick("consultaDigital")}>
           <div className={styles.icon}>
-            <img src="/img/chatBot/zoneInfo.png" alt="Icono" />
+            <img src="/img/chatBot/consulta.png" alt="Icono" />
           </div>
           <div className={styles.content}>
-            <h4>Quiero información acerca de alguna de las zonas metropolitanas</h4>
-            <p>Conoce lo más relevante de cada zona Metropolitana.</p>
+            <h4>¡Participa en la Consulta Ciudadana!</h4>
+            <p>Comparte tu opinión y ayúdanos a construir mejores políticas públicas. Accede al formulario digital y haz que tu voz cuente.</p>
           </div>
         </li>
-        <li onClick={() => handleMenuClick("authorities")}>
+
+        <li onClick={() => handleMenuClick("subeProyecto")}>
           <div className={styles.icon}>
-            <img src="/img/chatBot/authorities.png" alt="Icono" />
+            <img src="/img/chatBot/proyecto.png" alt="Icono" />
           </div>
           <div className={styles.content}>
-            <h4>Quiero conocer el trabajo de las autoridades en materia metropolitana</h4>
-            <p>Descubre cómo las autoridades gestionan y coordinan el desarrollo y bienestar de las zonas metropolitanas.</p>
+            <h4>Propón tu Proyecto para tu Comunidad</h4>
+            <p>Comparte tu iniciativa y contribuye al desarrollo de tu localidad. Llena el formulario y sé parte del cambio.</p>
           </div>
         </li>
-        <li onClick={() => handleMenuClick("projects")}>
+
+        <li onClick={() => handleMenuClick("buzonCiudadano")}>
           <div className={styles.icon}>
-            <img src="/img/chatBot/projects.png" alt="Icono" />
+            <img src="/img/chatBot/buzon.png" alt="Icono" />
           </div>
           <div className={styles.content}>
-            <h4>Quiero conocer los proyectos metropolitanos</h4>
-            <p>Explora los proyectos metropolitanos a través de un mapa interactivo y conoce su impacto en la región.</p>
+            <h4>Tu Opinión Nos Importa</h4>
+            <p>Envíanos tus sugerencias, quejas o propuestas. Tu voz es clave para mejorar juntos.</p>
           </div>
         </li>
-        <li onClick={() => handleMenuClick("planning")}>
+
+        <li onClick={() => handleMenuClick("eventosResultados")}>
           <div className={styles.icon}>
-            <img src="/img/chatBot/planning.png" alt="Icono" />
+            <img src="/img/chatBot/eventos.png" alt="Icono" />
           </div>
           <div className={styles.content}>
-            <h4>Quiero conocer los instrumentos de planeación</h4>
-            <p>Accede a la biblioteca digital y descubre herramientas clave para la coordinación metropolitana.</p>
+            <h4>Entérate de los Últimos Eventos y Resultados</h4>
+            <p>Descubre los encuentros ciudadanos y conoce los avances y logros de las iniciativas más recientes.</p>
           </div>
         </li>
-        <li onClick={() => handleMenuClick("cartography")}>
+
+        <li onClick={() => handleMenuClick("inscripcionForo")}>
           <div className={styles.icon}>
-            <img src="/img/chatBot/cartography.png" alt="Icono" />
+            <img src="/img/chatBot/foro.png" alt="Icono" />
           </div>
           <div className={styles.content}>
-            <h4>Quiero Explora la Cartografía las Zonas Metropolitanas</h4>
-            <p>Visualiza el mapa en PDF con las delimitaciones de cada Zona Metropolitana, sus límites territoriales y los municipios que las integran.</p>
+            <h4>Únete a los Foros de Participación</h4>
+            <p>Regístrate en los foros ciudadanos y participa en debates sobre el futuro de tu comunidad.</p>
+          </div>
+        </li>
+
+        <li onClick={() => handleMenuClick("preguntasFrecuentes")}>
+          <div className={styles.icon}>
+            <img src="/img/chatBot/faqs.png" alt="Icono" />
+          </div>
+          <div className={styles.content}>
+            <h4>Resolvemos tus Dudas</h4>
+            <p>Consulta las respuestas a las preguntas más frecuentes sobre participación ciudadana.</p>
+          </div>
+        </li>
+
+        <li onClick={() => handleMenuClick("normatividad")}>
+          <div className={styles.icon}>
+            <img src="/img/chatBot/normatividad.png" alt="Icono" />
+          </div>
+          <div className={styles.content}>
+            <h4>Consulta la Normativa Vigente</h4>
+            <p>Accede a la biblioteca digital y conoce los Programas, Planes y Guías que ayudan al crecimiento de Hidalgo.</p>
+          </div>
+        </li>
+
+        <li onClick={() => handleMenuClick("avisoPrivacidad")}>
+          <div className={styles.icon}>
+            <img src="/img/chatBot/privacidad.png" alt="Icono" />
+          </div>
+          <div className={styles.content}>
+            <h4>Tu Información Está Protegida</h4>
+            <p>Consulta nuestro aviso de privacidad y conoce cómo resguardamos tus datos personales.</p>
           </div>
         </li>
       </ul>
@@ -132,7 +164,7 @@ const ChatbotMain = () => {
       case "consultaDigital":
         return renderResponseWithLink(
           "¡Participa en la Consulta Ciudadana! Comparte tu opinión y ayúdanos a construir mejores políticas públicas.",
-          "https://link-a-consulta-digital.com"
+          "https://rbs8k6pucna.typeform.com/to/k8doyust"
         );
 
       case "subeProyecto":
