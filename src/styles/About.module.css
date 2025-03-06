@@ -44,12 +44,7 @@
 /* Tamaño para 'lg' */
 @media (max-width: 768px) {
   .aboutContainer {
-    display: flex;
-    align-items: center;
     flex-direction: column;
-    width: 100vw;
-    height: auto;
-    padding: 50px 20px;
     gap: 20px;
   }
 
@@ -60,14 +55,7 @@
 
   .logoAcuerdo {
     height: 100px;
-    border: 1px solid rgb(216, 19, 19);
   }
-
-  .aboutTxt {
-    height: auto;
-    border: 1px solid black;
-  }
-
 }
 
 /* Tamaño para 'md' */
