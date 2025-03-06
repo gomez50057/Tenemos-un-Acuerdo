@@ -14,20 +14,31 @@ export default function Portada() {
 
   useEffect(() => {
     if (txtRef.current) {
-      // Obtenemos la sección actual (header) y la sección siguiente
+      // Obtenemos la sección actual (header) y la siguiente sección
       const headerSection = document.getElementById("header");
       const nextSection = headerSection?.nextElementSibling;
-      
+
+      // Obtenemos el rectángulo del elemento actual
+      const headerTxtEl = txtRef.current;
+      const headerTxtRect = headerTxtEl.getBoundingClientRect();
+      // Definimos headerTxtDocBottom como la posición absoluta inferior del elemento
+      const headerTxtDocBottom = window.scrollY + headerTxtRect.bottom;
+
       let distance = 0;
       if (nextSection) {
-        const headerTxtEl = txtRef.current;
-        const headerTxtRect = headerTxtEl.getBoundingClientRect();
+        // Obtenemos el rectángulo de la siguiente sección
         const nextSectionRect = nextSection.getBoundingClientRect();
-        // Posición actual inferior del headerTxt en el documento
-        const headerTxtDocBottom = window.scrollY + headerTxtRect.bottom;
-        // Centro vertical de la siguiente sección en el documento
-        const nextSectionCenter = window.scrollY + nextSectionRect.top + (nextSectionRect.height / 2);
-        // Distancia que debe moverse para que el fondo del headerTxt se alinee con el centro del siguiente elemento
+        // Buscamos el contenedor interno "logoAcuerdo" dentro de la siguiente sección.
+        // Usamos un selector que verifique que la clase contenga "logoAcuerdo".
+        const innerContainer = nextSection.querySelector('[class*="logoAcuerdo"]');
+        let nextSectionCenter = 0;
+        if (innerContainer) {
+          const innerRect = innerContainer.getBoundingClientRect();
+          nextSectionCenter = window.scrollY + innerRect.top + innerRect.height;
+        } else {
+          // Si no se encuentra, se usa el centro de la sección completa
+          nextSectionCenter = window.scrollY + nextSectionRect.top + nextSectionRect.height / 2;
+        }
         distance = nextSectionCenter - headerTxtDocBottom;
       }
       
