@@ -1,17 +1,3 @@
-.titule h3,
-.titule p {
-  white-space: nowrap;
-  display: block;
-  margin: 5px;
-}
-
-.titule h3 {
-  font-size: 2.5rem;
-  font-weight: 600;
-  font-style: italic;
-  color: var(--doradoOsc);
-}
-
 .dualContainer {
   width: 100vw;
   height: auto;
@@ -81,7 +67,21 @@
 .text h2 {
   color: var(--grisClr);
   font-weight: 600;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
+}
+
+.titule h3,
+.titule p {
+  white-space: nowrap;
+  display: block;
+  margin: 5px;
+}
+
+.titule h3 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--doradoOsc);
 }
 
 .text p {
@@ -99,6 +99,25 @@
   background-color: aqua;
 }
 
+/* Tamaño para 'lg' */
+@media (max-width: 768px) {
+  .text {
+    width: 60%;
+  }
+
+  .text h2 {
+    font-size: 1rem;
+  }
+
+  .text p {
+    margin-top: 5px;
+    font-size: 0.5rem;
+  }
+
+  .imgContainer {
+    width: 40%;
+  }
+}
 
 /* Tamaño para 'md' */
 /* @media (min-width: 576px) {
@@ -123,9 +142,9 @@
 
 /* Tamaño para 'xxl' */
 @media (min-width: 1400px) {
-  /* .dualContainer {
-    background-color: lightgoldenrodyellow;
-  } */
+  .text h2 {
+    font-size: 2rem;
+  }
 
   .wrapper {
     min-height: 40vh;
