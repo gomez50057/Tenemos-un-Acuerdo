@@ -5,6 +5,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import HomeIcon from "@mui/icons-material/Home";
 import styles from "./ChatbotMain.module.css";
 import ChatForms from "./ChatForms";
+import ForumForm from "./ForumForm";
+
 
 const ChatbotMain = () => {
   const [formData, setFormData] = useState({});
@@ -134,6 +136,12 @@ const ChatbotMain = () => {
     </div>
   );
 
+  const RenderingForumForm = () => (
+    <div className={styles.step}>
+      <ForumForm handleMenuClick={handleMenuClick} />
+    </div>
+  );
+
   const renderResponseWithLink = (message, link) => (
     <div className={styles.chatbotStep}>
       <p>{message}</p>
@@ -168,10 +176,7 @@ const ChatbotMain = () => {
         );
 
       case "subeProyecto":
-        return renderResponseWithLink(
-          "Comparte tu iniciativa y contribuye al desarrollo de tu comunidad. Llena el formulario y sé parte del cambio.",
-          "https://link-a-formulario-proyectos.com"
-        );
+        return renderProposalForm();
 
       case "buzonCiudadano":
         return renderResponseWithLink(
@@ -192,10 +197,7 @@ const ChatbotMain = () => {
         );
 
       case "inscripcionForo":
-        return renderResponseWithLink(
-          "Regístrate en los foros ciudadanos y participa en debates sobre el futuro de tu comunidad.",
-          "https://link-a-inscripcion-foro.com"
-        );
+        return RenderingForumForm();
 
       case "preguntasFrecuentes":
         return renderResponseWithLink(
