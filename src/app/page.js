@@ -4,7 +4,7 @@ import PlanEstatal from "../components/planEstatal/PlanEstatal";
 import Slider from "../components/Slider";
 import Footer from "../components/shared/Footer";
 import Navbar from "../components/shared/Navbar";
-// import Chatbot from "../components/chat/Chatbot";
+import Chatbot from "../components/chat/Chatbot";
 
 
 export default function Home() {
@@ -16,7 +16,7 @@ export default function Home() {
       <PlanEstatal />
       <Slider />
       <Footer />
-      {/* <Chatbot /> */}
+      <Chatbot />
     </div>
   );
 }

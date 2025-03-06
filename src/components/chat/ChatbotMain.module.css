@@ -201,3 +201,23 @@ padding: 2px 0;
   left: calc(-47% + 20px);
   top: 10px;
 }
+
+
+
+.logoCollapsed {
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  position: fixed;
+  bottom: 30px;
+  right: 15px;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: white;
+  padding: 10px;
+  transition: transform 0.3s ease;
+}
+
+.logoCollapsed:hover {
+  transform: scale(1.1);
+}
