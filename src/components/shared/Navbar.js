@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import styles from './Navbar.module.css';
 
@@ -8,42 +8,50 @@ const img = "/img/";
 const Navbar = () => {
   const [showEjes, setShowEjes] = useState(false);
   const [showTransversales, setShowTransversales] = useState(false);
-  const [scrollPosition, setScrollPosition] = useState(0);
   const [visible, setVisible] = useState(true);
+  const lastScrollPos = useRef(0);
 
-  // Eventos para manejar hover en escritorio
-  const handleEjesMouseEnter = () => setShowEjes(true);
-  const handleEjesMouseLeave = () => setShowEjes(false);
-  const handleTransMouseEnter = () => setShowTransversales(true);
-  const handleTransMouseLeave = () => setShowTransversales(false);
+  // Handlers para hover (escritorio)
+  const handleEjesMouseEnter = useCallback(() => setShowEjes(true), []);
+  const handleEjesMouseLeave = useCallback(() => setShowEjes(false), []);
+  const handleTransMouseEnter = useCallback(() => setShowTransversales(true), []);
+  const handleTransMouseLeave = useCallback(() => setShowTransversales(false), []);
 
-  // Evento de clic para dispositivos táctiles
-  const toggleEjes = () => setShowEjes(prev => !prev);
-  const toggleTransversales = () => setShowTransversales(prev => !prev);
+  // Handler para dispositivos táctiles (toggle)
+  const toggleEjes = useCallback(() => setShowEjes(prev => !prev), []);
+  const toggleTransversales = useCallback(() => setShowTransversales(prev => !prev), []);
 
+  // Manejo optimizado del scroll con requestAnimationFrame y ref para almacenar la posición anterior
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
       const currentScrollPos = window.pageYOffset;
-      setVisible(currentScrollPos < scrollPosition || currentScrollPos < 10);
-      setScrollPosition(currentScrollPos);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          // Se muestra el navbar si se hace scroll hacia arriba o se está casi al tope
+          setVisible(currentScrollPos < lastScrollPos.current || currentScrollPos < 10);
+          lastScrollPos.current = currentScrollPos;
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [scrollPosition]);
+  }, []);
 
   return (
-    <nav className={`${styles.Navbar} ${visible ? styles.active : styles.hidden} ${scrollPosition > 100 ? styles.scrolled : ''}`}>
-      <ul className={styles.NavbarList}>
+    <nav className={`${styles.Navbar} ${visible ? styles.active : styles.hidden} ${lastScrollPos.current > 100 ? styles.scrolled : ''}`}>
+      <div className={styles.NavbarList}>
         <div className={styles.NavbarImg}>
           <img src={`${img}Coordinación.png`} alt="Logo de Planeación" />
           <img src={`${img}headertxt.png`} alt="Logo de Tenemos un Acuedo" />
-          <li>
-            <Link href="/">Inicio</Link>
-          </li>
         </div>
         <div className={styles.NavbarInicio}>
-          <div className={styles.navbarOpc}>
+          <ul className={styles.navbarOpc}>
+            <li><Link href="/">Inicio</Link></li>
             <li
               className={styles.dropdown}
               onMouseEnter={handleEjesMouseEnter}
@@ -70,12 +78,12 @@ const Navbar = () => {
                 </ul>
               )}
             </li>
-          </div>
+          </ul>
           <div className={styles.NavbarCirculo}>
             <img src={`${img}estrella.webp`} alt="Estrella de Hidalgo" />
           </div>
         </div>
-      </ul>
+      </div>
     </nav>
   );
 };
