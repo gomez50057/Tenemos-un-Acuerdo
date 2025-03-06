@@ -4,7 +4,7 @@
   margin: 5vh 5vw;
 }
 
-.footer_redes {
+.footer .footer_redes {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -12,7 +12,7 @@
   height: auto;
 }
 
-.footer_redes img {
+.footer .footer_redes img {
   width: auto;
   height: 30px;
 }
@@ -30,7 +30,7 @@
   height: auto;
 }
 
-.footer_contacto {
+.footer .footer_contacto {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,29 +39,44 @@
   color: var(--vinoClr);
 }
 
-.footer_contacto_txt .footer_contacto_ico {
+.footer .footer_contacto_txt .footer_contacto_ico {
   display: flex;
 }
 
-.footer_contacto_txt .footer_contacto_ico img {
+.footer .footer_contacto_txt .footer_contacto_ico img {
   width: auto;
   height: 30px;
   margin-right: 5px;
 }
 
-.footer_contacto .footer_contacto_txt p {
+.footer .footer_contacto .footer_contacto_txt p {
   margin: 0;
   font-size: 12px;
 }
 
-.footer_contacto .footer_contacto_txt p span {
+.footer .footer_contacto .footer_contacto_txt p span {
   font-weight: 800;
 }
 
-.linea_footer {
+.footer .linea_footer {
   width: 100%;
   height: 2px;
   margin: 2% 0;
   background-color: var(--vinoClr);
   box-shadow: 0px 2px 2px rgba(234, 24, 24, 0.5);
+}
+
+
+@media (max-width: 768px) {
+  .footer {
+    margin: 5vh 2vw;
+  }
+
+  .footer .footer_contacto {
+    width: 50%;
+  }
+
+  .footer .footer_redes {
+    width: 50%;
+  }
 }
