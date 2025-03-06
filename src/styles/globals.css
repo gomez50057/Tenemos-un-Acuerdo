@@ -71,3 +71,14 @@ p {
   color: var(--grisOsc);
   font-weight: 500;
 }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
