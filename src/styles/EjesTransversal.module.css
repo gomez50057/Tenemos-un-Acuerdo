@@ -1,0 +1,53 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.section {
+  margin-bottom: 1.5rem;
+}
+
+.section h2 {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.section p {
+  line-height: 1.6;
+  color: #555;
+}
+
+.section a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.section a:hover {
+  text-decoration: underline;
+}
+
+/* Creamos clases locales para la lista */
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.listItem {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.listItem a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.listItem a:hover {
+  text-decoration: underline;
+}

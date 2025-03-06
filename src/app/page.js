@@ -1,6 +1,6 @@
 import Portada from "../components/Portada";
 import Sobre from "../components/About";
-import PlanEstatal from "../components/PlanEstatal/PlanEstatal";
+import PlanEstatal from "../components/planEstatal/PlanEstatal";
 import Slider from "../components/Slider";
 import Footer from "../components/shared/Footer";
 import Navbar from "../components/shared/Navbar";
