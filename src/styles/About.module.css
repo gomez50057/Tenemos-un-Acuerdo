@@ -20,7 +20,7 @@
   padding-right: 2.5vw;
 } */
 
-.aboutContainer p{
+.aboutContainer p {
   text-align: justify;
 }
 
@@ -35,8 +35,40 @@
 
 .tren {
   width: 100vw;
-  height: 150px; /* Altura para las vías */
+  height: 150px;
   background: url('/img/vias.png') no-repeat bottom;
   background-size: 100% auto;
   position: relative;
+}
+
+
+/* Tamaño para 'md' */
+/* @media (min-width: 576px) {
+  .aboutContainer {
+    background-color: lightblue;
+    flex-direction: column;
+
+  }
+} */
+
+/* Tamaño para 'lg' */
+/* @media (min-width: 768px) {
+  .aboutContainer {
+    background-color: lightgreen;
+
+  }
+} */
+
+/* Tamaño para 'xl' */
+/* @media (min-width: 1024px) {
+  .dualContainer {
+    background-color: lightcoral;
+  }
+} */
+
+/* Tamaño para 'xxl' */
+@media (min-width: 1400px) {
+  /* .dualContainer {
+    background-color: lightgoldenrodyellow;
+  } */
 }
