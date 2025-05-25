@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from '../../styles/formatText.module.css';
 /**
- *   *texto*
- *   _texto_
+ *   *texto* Dorado italica negrita
+ *   _texto_ vino italica negrita
  */
 export const formatText = (text) => {
   // Separa el string en partes usando una expresión regular que captura *...* o _..._

@@ -1,47 +1,90 @@
 export const ejesPlanEstatal = [
   {
-    name: "_Eje 1: Hidalgo_ con *Gobernanza, Justicia* y *Participación Ciudadana*",
+    slug: "/ejes-generales/eje-01",
+    name: "_Eje 1 Estado_ *Planificado*, *Ordenado* y *Democrático*",
     description:
-      "Este eje impulsa la transparencia y la colaboración en el gobierno, fortaleciendo la justicia y la participación activa de los ciudadanos para construir un Hidalgo más equitativo y responsable.",
-    image: "/img/Plan_Estatal/ejes/eje1.jpg",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros nulla, facilisis ut congue eu, fringilla placerat felis. Mauris porttitor.",
+    image: "/img/Ejes/Generales/eje1.png",
+    linkEje: "/ejes-generales/eje-01"
   },
   {
-    name: "_Eje 2: Desarrollo_ con *Bienestar* y *Humanismo* en *Hidalgo*",
+    slug: "/ejes-generales/eje-02",
+    name: "_Eje 2 Estado_ *Eficiente* y *Disciplinado* con sus *Finanzas*",
     description:
-      "Focalizado en el bienestar integral y el humanismo, este eje promueve políticas que garanticen una vida digna y el desarrollo social a partir de valores éticos y de inclusión.",
-    image: "/img/Plan_Estatal/ejes/eje2.jpg",
+     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros nulla, facilisis ut congue eu, fringilla placerat felis. Mauris porttitor.",
+    image: "/img/Ejes/Generales/eje2.png",
   },
   {
-    name: "_Eje 3: Hidalgo_ con *Economía Moral* y *Trabajo*",
+    slug: "/ejes-generales/eje-03",
+    name: "_Eje 3 Estado_  *Seguro* y *Justo*",
     description:
-      "Orientado a impulsar una economía ética y sostenible, este eje fomenta el trabajo digno y la integridad en el desarrollo económico, asegurando beneficios reales para todos los sectores.",
-    image: "/img/Plan_Estatal/ejes/eje3.jpg",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros nulla, facilisis ut congue eu, fringilla placerat felis. Mauris porttitor.",
+    image: "/img/Ejes/Generales/eje3.png",
   },
   {
-    name: "_Eje 4: Desarrollo_ *Sustentable* en *Hidalgo*",
+    slug: "eje-04",
+    name: "_Eje 4 Estado_ *Fraterno* de *Bienestar* para el *Pueblo*",
     description:
-      "Este eje apuesta por un crecimiento que respete el medio ambiente y garantice recursos para el futuro, combinando innovación y responsabilidad ecológica en cada acción.",
-    image: "/img/Plan_Estatal/ejes/eje4.jpg",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros nulla, facilisis ut congue eu, fringilla placerat felis. Mauris porttitor.",
+    image: "/img/Ejes/Generales/eje4.png",
+  },
+  {
+    slug: "/ejes-generales/eje-05",
+    name: "_Eje 5 Estado_ *Educado* y *Humanista*",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros nulla, facilisis ut congue eu, fringilla placerat felis. Mauris porttitor.",
+    image: "/img/Ejes/Generales/eje5.png",
+  },
+  {
+    slug: "/ejes-generales/eje-06",
+    name: "_Eje 6 Estado_ *Próspero* y de *Oportunidades*",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros nulla, facilisis ut congue eu, fringilla placerat felis. Mauris porttitor.",
+    image: "/img/Ejes/Generales/eje6.png",
+  },
+  {
+    slug: "/ejes-generales/eje-07",
+    name: "_Eje 7 Estado_ *Orgulloso* de su *Cultura* y *Turismo*",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros nulla, facilisis ut congue eu, fringilla placerat felis. Mauris porttitor.",
+    image: "/img/Ejes/Generales/eje7.png",
+  },
+  {
+    slug: "/ejes-generales/eje-08",
+    name: "_Eje 8 Estado_ *Conectado* y con *Infraestructura* para el *Desarrollo*",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros nulla, facilisis ut congue eu, fringilla placerat felis. Mauris porttitor.",
+    image: "/img/Ejes/Generales/eje8.png",
+  },
+  {
+    slug: "/ejes-generales/eje-09",
+    name: "_Eje 9 Estado_ *Sustentable* y *Productivo*",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros nulla, facilisis ut congue eu, fringilla placerat felis. Mauris porttitor.",
+    image: "/img/Ejes/Generales/eje9.png",
   },
 ];
 
 export const TransversalesPlanEstatal = [
   {
-    name: "_Transversal_ de *Mujeres*",
+    slug: "/ejes-trasversales/eje-01",
+    name: "_Eje_ Transversal 1 _Estado_ *Transparente* y de *Rendición* de *Cuentas*",
     description:
-      "Este eje busca promover la equidad de género, empoderar a las mujeres y fomentar su participación en todos los ámbitos de la sociedad.",
-    image: "/img/Transversales/mujeres.jpg",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros nulla, facilisis ut congue eu, fringilla placerat felis. Mauris porttitor.",
+    image: "/img/Ejes/Transversales/eje1.png",
   },
   {
-    name: "_Transversal_ de *Ciencia y Tecnología*",
+    slug: "/ejes-trasversales/eje-02",
+    name: "_Eje_ Transversal 2 _Estado_ *Tecnológico* e *Innovador*",
     description:
-      "Orientado a impulsar la innovación y el conocimiento, este eje fortalece la investigación y el desarrollo tecnológico para el progreso social y económico.",
-    image: "/img/Transversales/ciencia-tecnologia.jpg",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros nulla, facilisis ut congue eu, fringilla placerat felis. Mauris porttitor.",
+    image: "/img/Ejes/Transversales/eje2.png",
   },
   {
-    name: "_Transversal_ de *Grupos Vulnerables*",
+    slug: "/ejes-trasversales/eje-03",
+    name: "_Eje_ Transversal 3 _Estado_ de *Igualdad Sustantiva* para las *Mujeres*",
     description:
-      "Focalizado en la inclusión social, este eje trabaja para proteger y brindar oportunidades a comunidades en situación de vulnerabilidad, garantizando la igualdad de derechos.",
-    image: "/img/Transversales/grupos-vulnerables.jpg",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros nulla, facilisis ut congue eu, fringilla placerat felis. Mauris porttitor.",
+    image: "/img/Ejes/Transversales/eje3.png",
   },
 ];

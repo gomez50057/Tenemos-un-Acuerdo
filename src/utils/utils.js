@@ -18,6 +18,15 @@ export const municipiosDeHidalgo = [
   '080 Yahualica', '081 Zacualtipán de Ángeles', '082 Zapotlán de Juárez', '083 Zempoala', '084 Zimapán'
 ];
 
+export const edadOptions = [
+  { value: "menor_18", label: "Menor de 18 años" },
+  { value: "18_29", label: "18-29 años" },
+  { value: "30_39", label: "30-39 años" },
+  { value: "40_49", label: "40-49 años" },
+  { value: "50_59", label: "50-59 años" },
+  { value: "60_mas", label: "60 o más años" },
+];
+
 export const sexoOptions = [
   { label: "Hombre", value: "Hombre" },
   { label: "Mujer", value: "Mujer" },

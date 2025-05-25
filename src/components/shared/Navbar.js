@@ -60,8 +60,9 @@ const Navbar = () => {
               <span className={styles.dropdownToggle} onClick={toggleEjes}>Ejes</span>
               {showEjes && (
                 <ul className={styles.dropdownMenu}>
-                  <li><Link href="/ejes/sub1">Sub Eje 1</Link></li>
-                  <li><Link href="/ejes/sub2">Sub Eje 2</Link></li>
+                  {[...Array(9)].map((_, index) => (
+                    <li key={index + 1}><Link href={`/ejes-generales/eje-0${index + 1}`}>Sub Eje {index + 1}</Link></li>
+                  ))}
                 </ul>
               )}
             </li>
@@ -73,10 +74,12 @@ const Navbar = () => {
               <span className={styles.dropdownToggle} onClick={toggleTransversales}>Transversales</span>
               {showTransversales && (
                 <ul className={styles.dropdownMenu}>
-                  <li><Link href="/transversales/sub1">Sub Transversal 1</Link></li>
-                  <li><Link href="/transversales/sub2">Sub Transversal 2</Link></li>
+                  {[...Array(3)].map((_, index) => (
+                    <li key={index + 1}><Link href={`/ejes-trasversales/eje-0${index + 1}`}>Sub Transversal {index + 1}</Link></li>
+                  ))}
                 </ul>
               )}
+
             </li>
           </ul>
           <div className={styles.NavbarCirculo}>

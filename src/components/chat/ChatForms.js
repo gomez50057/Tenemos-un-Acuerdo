@@ -5,7 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import Select from "react-select";
 import * as Yup from "yup";
 import axios from "axios";
-import { municipiosDeHidalgo, sexoOptions, grupoOptions } from "../../utils/utils";
+import { municipiosDeHidalgo, edadOptions, sexoOptions, grupoOptions } from "../../utils/utils";
 import "../forms/Formulario.css";
 
 // Convertir la lista de municipios al formato esperado por react-select (para selección única)
@@ -59,7 +59,7 @@ const ChatForms = ({ handleMenuClick }) => (
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         setSubmitting(true);
-        
+
         // Formatear valores para enviar al backend
         const formattedValues = {
           ...values,
@@ -102,12 +102,14 @@ const ChatForms = ({ handleMenuClick }) => (
 
           <div className="form-group">
             <label htmlFor="edad">Edad</label>
-            <Field
-              id="edad"
+            <Select
+              options={edadOptions}
               name="edad"
-              type="number"
-              className="input-field"
-              placeholder="Ingresa tu edad"
+              className="react-select-container"
+              classNamePrefix="react-select"
+              placeholder="Selecciona tu rango de edad"
+              onChange={(selectedOption) => setFieldValue("edad", selectedOption)}
+              value={values.edad}
             />
             <ErrorMessage name="edad" component="div" className="error-message" />
           </div>

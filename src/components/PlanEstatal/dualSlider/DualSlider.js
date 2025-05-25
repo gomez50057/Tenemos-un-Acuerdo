@@ -15,18 +15,6 @@ const DualSlider = ({ topItems, bottomItems }) => {
   const topWrapperRef = useRef(null);
   const bottomWrapperRef = useRef(null);
 
-  // Función para transformar el nombre en un slug URL-safe.
-  const slugify = (text) => {
-    return text
-      .toString()
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, '-') // Reemplaza espacios por guiones
-      .replace(/[^A-Za-z0-9\-]+/g, '')
-      .replace(/[^\w\-]+/g, '') // Elimina caracteres especiales
-      .replace(/\-\-+/g, '-'); // Reemplaza guiones múltiples por uno solo
-  };
-
   useEffect(() => {
     const containerEl = containerRef.current;
     const topWrapper = topWrapperRef.current;
@@ -90,8 +78,8 @@ const DualSlider = ({ topItems, bottomItems }) => {
   }, [topItems, bottomItems]);
 
   // Función para manejar el clic en la slide
-  const handleSlideClick = (itemName) => {
-    const url = `/plan-estatal/${slugify(itemName)}`;
+  const handleSlideClick = (slug) => {
+    const url = `${slug}`;
     window.open(url, '_blank');
   };
 
@@ -108,7 +96,7 @@ const DualSlider = ({ topItems, bottomItems }) => {
             <div 
               key={item.id || index} 
               className={styles.slide} 
-              onClick={() => handleSlideClick(item.name)}
+              onClick={() => handleSlideClick(item.slug)}
               style={{ cursor: 'pointer' }}
             >
               <div className={styles.text}>
@@ -119,9 +107,9 @@ const DualSlider = ({ topItems, bottomItems }) => {
                 <Image
                   src={item.image}
                   alt={item.name}
-                  layout="responsive"
                   width={600}
-                  height={400}
+                  height={100}
+                  objectFit="contain"
                 />
               </div>
             </div>
@@ -135,7 +123,7 @@ const DualSlider = ({ topItems, bottomItems }) => {
             <div 
               key={item.id || index} 
               className={styles.slide} 
-              onClick={() => handleSlideClick(item.name)}
+              onClick={() => handleSlideClick(item.slug)}
               style={{ cursor: 'pointer' }}
             >
               <div className={styles.text}>
@@ -146,9 +134,8 @@ const DualSlider = ({ topItems, bottomItems }) => {
                 <Image
                   src={item.image}
                   alt={item.name}
-                  layout="responsive"
                   width={600}
-                  height={400}
+                  height={100}
                 />
               </div>
             </div>
