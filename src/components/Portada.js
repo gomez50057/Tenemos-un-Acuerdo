@@ -53,7 +53,7 @@ export default function Portada() {
           endTrigger: innerContainer || nextSection,
           end: "center center",
           scrub: true,
-          markers: true,
+          markers: false,
         }
       });
     }

@@ -26,17 +26,17 @@ const Footer = () => {
             <img src={`${imgBasePath}telefono.webp`} alt="icono de un telefono" />
             <div>
               <p><span>CONTACTO:</span></p>
-              <p><span>Tel.: 771 717 6000 ext. 6410</span></p>
+              <p><span>Tel.: 7717197262</span></p>
             </div>
           </div>
 
           <p><span>Coordinación General de Planeación y Proyectos</span></p>
-          <p>Dirección General xxxxxxxxxxxxx</p>
+          <p>Dirección general de Planeación y Participación Ciudadana</p>
 
-          {/* <p><span>Unidad de Planeación y Prospectiva</span></p> */}
-          <p>cg.planeacion@hidalgo.gob.mx</p>
+          <p>participacionciudadana@hidalgo.gob.mx</p>
           <div className="linea_footer"></div>
           <p>Gobierno del Estado de Hidalgo</p>
+          <p>Unidad de Planeación y Prospectiva</p>
           <p><span>www.hidalgo.gob.mx</span></p>
         </div>
       </div>
