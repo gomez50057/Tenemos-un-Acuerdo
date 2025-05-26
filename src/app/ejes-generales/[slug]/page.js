@@ -1,8 +1,8 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { ejesGenerales } from "../../../utils/ejesGenerales";
-import EjeGeneral from "../../../components/ejeGeneral/EjeGeneral";
+import { ejesGenerales } from "@/utils/ejesGenerales";
+import EjeGeneral from "@/components/ejeGeneral/EjeGeneral";
 
 export default function EjeGeneralPage() {
   const { slug } = useParams();
