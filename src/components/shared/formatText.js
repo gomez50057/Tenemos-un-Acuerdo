@@ -5,7 +5,7 @@ import styles from '../../styles/formatText.module.css';
  *   _texto_ vino italica negrita
  */
 export const formatText = (text) => {
-  // Separa el string en partes usando una expresión regular que captura *...* o _..._
+  if (typeof text !== 'string') return null;
   const parts = text.split(/(\*[^*]+\*|_[^_]+_)/g);
   return parts.map((part, index) => {
     if (part.startsWith('*') && part.endsWith('*')) {
