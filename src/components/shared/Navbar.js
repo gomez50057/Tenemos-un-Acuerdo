@@ -57,11 +57,11 @@ const Navbar = () => {
               onMouseEnter={handleEjesMouseEnter}
               onMouseLeave={handleEjesMouseLeave}
             >
-              <span className={styles.dropdownToggle} onClick={toggleEjes}>Ejes</span>
+              <span className={styles.dropdownToggle} onClick={toggleEjes}>Generales</span>
               {showEjes && (
                 <ul className={styles.dropdownMenu}>
                   {[...Array(9)].map((_, index) => (
-                    <li key={index + 1}><Link href={`/ejes-generales/eje-0${index + 1}`}>Sub Eje {index + 1}</Link></li>
+                    <li key={index + 1}><Link href={`/ejes-generales/eje-0${index + 1}`}>Eje General {index + 1}</Link></li>
                   ))}
                 </ul>
               )}
@@ -75,7 +75,7 @@ const Navbar = () => {
               {showTransversales && (
                 <ul className={styles.dropdownMenu}>
                   {[...Array(3)].map((_, index) => (
-                    <li key={index + 1}><Link href={`/ejes-trasversales/eje-0${index + 1}`}>Sub Transversal {index + 1}</Link></li>
+                    <li key={index + 1}><Link href={`/ejes-trasversales/eje-0${index + 1}`}>Eje Transversal {index + 1}</Link></li>
                   ))}
                 </ul>
               )}
