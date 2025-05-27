@@ -2,52 +2,60 @@
 
 import { formatText } from "../shared/formatText";
 import styles from "../../styles/EjesGenerales.module.css";
+const imgEjesGenerales = "/img/Ejes/Generales/";
+
 
 const EjeGeneral = ({ eje }) => {
   if (!eje) return <p>Eje General no fue encontrado</p>;
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <h1>{formatText(eje.title)}</h1>
-      </header>
 
-      <section className={styles.section}>
-        <h2>Descripción</h2>
-        <p>{formatText(eje.description)}</p>
-      </section>
 
-      <section className={styles.section}>
-        <h2>Diagnóstico</h2>
-        <p>{formatText(eje.diagnostico)}</p>
-      </section>
+      <div className={styles.section01}>
+        <div className={styles.section01Img}>
+          <img src={`${imgEjesGenerales}${eje.img01}`} alt={eje.title} />
+        </div>
+        <div className={styles.section01Text}>
+          <h1>{formatText(eje.title)}</h1>
+          <h2>Descripción</h2>
+          <p>{formatText(eje.description)}</p>
+        </div>
 
-      <section className={styles.section}>
+      </div>
+
+      <div className={styles.section02}>
+        <span className={styles.cornerBottomLeft}></span>
         <h2>Participación</h2>
         <p>{formatText(eje.participacion)}</p>
-      </section>
+      </div>
 
-      <section className={styles.section}>
+      <div className={styles.section03}>
+        <span className={styles.cornerTopRight}></span>
         <h2>Prospectiva</h2>
         <p>{formatText(eje.prospectiva)}</p>
-      </section>
+      </div>
 
-      <section className={styles.section}>
-        <h2>Logros</h2>
-        <p>{formatText(eje.logros)}</p>
-      </section>
+      <div className={styles.section04}>
+        <div className={styles.columnLeft}>
+          <h2>Logros</h2>
+          <p>{formatText(eje.logros)}</p>
+        </div>
 
-      <section className={styles.section}>
-        <h2>Indicadores</h2>
-        <p>{formatText(eje.indicadores)}</p>
-      </section>
+        <div className={styles.columnRight}>
+          <h2>Indicadores</h2>
+          <p>{formatText(eje.indicadores)}</p>
+        </div>
+      </div>
 
-      <section className={styles.section}>
+
+
+      <div className={styles.section}>
         <h2>Link del PED</h2>
         <a href={eje.pedLink} target="_blank" rel="noopener noreferrer">
           Ver Plan Estatal de Desarrollo
         </a>
-      </section>
+      </div>
     </div>
   );
 };
