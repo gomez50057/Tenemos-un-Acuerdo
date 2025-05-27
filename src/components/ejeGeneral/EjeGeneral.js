@@ -10,8 +10,6 @@ const EjeGeneral = ({ eje }) => {
 
   return (
     <div className={styles.container}>
-
-
       <div className={styles.section01}>
         <div className={styles.section01Img}>
           <img src={`${imgEjesGenerales}${eje.img01}`} alt={eje.title} />
@@ -21,7 +19,6 @@ const EjeGeneral = ({ eje }) => {
           <h2>Descripción</h2>
           <p>{formatText(eje.description)}</p>
         </div>
-
       </div>
 
       <div className={styles.section02}>
@@ -48,11 +45,8 @@ const EjeGeneral = ({ eje }) => {
         </div>
       </div>
 
-
-
-      <div className={styles.section}>
-        <h2>Link del PED</h2>
-        <a href={eje.pedLink} target="_blank" rel="noopener noreferrer">
+      <div className={styles.sectionLink}>
+        <a href="/pdf/PDU.pdf" target="_blank" rel="noopener noreferrer" className={styles.Button}>
           Ver Plan Estatal de Desarrollo
         </a>
       </div>

@@ -4,6 +4,8 @@ import { useParams } from "next/navigation";
 import { ejesGenerales } from "@/utils/ejesGenerales";
 import EjeGeneral from '@/components/ejeGeneral/EjeGeneral';
 import Navbar from "@/components/shared/Navbar";
+import Footer from "@/components/shared/Footer";
+
 
 export default function EjeGeneralPage() {
   const { slug } = useParams();
@@ -16,6 +18,7 @@ export default function EjeGeneralPage() {
     <div>
       <Navbar />
       <EjeGeneral eje={eje} />
+      <Footer />
     </div>
   );
 }

@@ -3,7 +3,11 @@
 }
 
 .container h2 {
-  color: var(--grisOsc);
+  background: linear-gradient(120deg, var(--vinoOsc), var(--vinoClr));
+  width: fit-content;
+  padding: 0.5rem 1rem;
+  color: var(--blanco);
+  border-radius: 8px 25px 8px 25px;
   font-weight: 700;
   font-style: italic;
   font-size: 1.6rem;
@@ -27,7 +31,7 @@
 }
 
 .section01Img img {
-  width: 40vw;
+  width: 27vw;
   height: auto;
 }
 
@@ -127,34 +131,54 @@
   text-align: justify;
 }
 
+.sectionLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  letter-spacing: 3.5px;
+}
 
-
-
-.section a {
-  color: #0066cc;
+.Button {
+  position: relative;
+  cursor: pointer;
+  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--vinoClr);
+  background-color: transparent;
+  border: 2px solid var(--vinoClr);
+  border-radius: 8px;
   text-decoration: none;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  z-index: 1;
 }
 
-.section a:hover {
-  text-decoration: underline;
+.Button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, var(--vinoOsc), var(--vinoClr));
+  opacity: 0.2;
+  transition: all 0.4s ease;
+  z-index: 0;
 }
 
-/* Creamos clases locales para la lista */
-.list {
-  list-style: none;
-  padding: 0;
+.Button:hover::before {
+  left: 0;
 }
 
-.listItem {
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
+.Button:hover {
+  background-color: rgba(220, 180, 130, 0.1);
+  box-shadow: 0 0 10px var(--vinoClr), 0 0 20px var(--vinoClr);
+  color: var(--vinoOsc);
 }
 
-.listItem a {
-  color: #0066cc;
-  text-decoration: none;
-}
-
-.listItem a:hover {
-  text-decoration: underline;
+.Button:focus {
+  outline: none;
+  box-shadow: 0 0 10px var(--vinoOsc);
 }
